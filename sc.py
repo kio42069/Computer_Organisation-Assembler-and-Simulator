@@ -67,6 +67,12 @@ output = []
 flags_register = "0000_0000_0000_0000"
 registers = {"R0": "000", "R1": "001", "R2": "010", "R3": "011", "R4": "100", "R5": "101", "R6": "110", "FLAGS": "111"}
 
+for line in code_as_lst:
+    for_label_lst = line.split()
+    match for_label_lst[0][-1]:
+        case _:
+            
+
 temp_cnt = 0
 for line in code_as_lst:
     line_lst = line.split()
