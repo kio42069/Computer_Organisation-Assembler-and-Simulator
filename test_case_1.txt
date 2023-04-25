@@ -1,3 +1,5 @@
 var X
-je 0011001
+mul R3 R2 R1
+mov R6 $5
+cmp R2 R3
 hlt
