@@ -69,6 +69,11 @@ if (code_as_lst):
         elif (code_as_lst[0:3] != "var"):
             line_cnt+=1
 
+if "hlt" not in code_as_lst and "hlt\n" not in code_as_lst:
+    print("Missing hlt")
+elif "hlt" not in code_as_lst:
+    print("hlt not last command")
+
 var_dic = {}
 label_dic ={}
 output = []
