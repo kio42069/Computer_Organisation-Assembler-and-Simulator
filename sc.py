@@ -1,6 +1,6 @@
 #Assembler v1
 
-def decimal_to_binary(n):
+def decimal_to_binary(n):                                    #output is a string
     result = 0
     digits = 0
     
@@ -17,6 +17,15 @@ def decimal_to_binary(n):
 
     return result
 
+def binary_to_decimal(n):                                   #output is an int
+    result = 0
+    num = str(n)[::-1]
+
+    for i in range(len(num)):
+        dig = int(num[i])
+        result += dig*(2**i)
+    
+    return result
 
 def type_A(line_output, line_lst, registers):
     line_output += f"00{registers[line_lst[1]]}{registers[line_lst[2]]}{registers[line_lst[3]]}"
@@ -67,15 +76,17 @@ output = []
 flags_register = "0000_0000_0000_0000"
 registers = {"R0": "000", "R1": "001", "R2": "010", "R3": "011", "R4": "100", "R5": "101", "R6": "110", "FLAGS": "111"}
 
+temp_cnt=0
 for line in code_as_lst:
     for_label_lst = line.split()
     match for_label_lst[0][-1]:
-        case _:
-            
+        case ":":
+            label_dic[for_label_lst[0]] = decimal_to_binary(temp_cnt)     
+    temp_cnt+=1       
 
-temp_cnt = 0
-for line in code_as_lst:
-    line_lst = line.split()
+line_index=0
+while line_index<len(code_as_lst):
+    line_lst = code_as_lst[line_index].split()
     line_output = ""
 
 
@@ -176,14 +187,15 @@ for line in code_as_lst:
 
         case _:
             if line_lst[0][-1] == ":":
-                label_dic[line_lst[0]] = decimal_to_binary(temp_cnt)
+                jump_to_addr = binary_to_decimal(label_dic[line_lst[0]])
+                line_index = jump_to_addr-1
             
             else:                 
                 print("Error: Operation does not exist")
         
 
     output.append(line_output)
-    temp_cnt+=1
+    line_index += 1
 
 #to delete empty lines from output
 if (output):
