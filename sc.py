@@ -72,7 +72,7 @@ if (code_as_lst):
             code_as_lst.pop(i)
         elif (code_as_lst[0:3] != "var"):
             line_cnt+=1
-
+line_cnt = 0
 #(h) error detection [MISSING HLT INSTRUCTION]
 if "hlt" not in code_as_lst and "hlt\n" not in code_as_lst:
     print("Missing hlt")
@@ -103,9 +103,9 @@ while line_index<len(code_as_lst):
     line_lst = code_as_lst[line_index].split()
     line_output = ""
 
-
     match line_lst[0]:
         case "var":
+            print(decimal_to_binary(line_cnt))
             bin_addr = decimal_to_binary(line_cnt)
             var_dic[line_lst[1]] = bin_addr
             line_cnt += 1
@@ -275,16 +275,17 @@ while line_index<len(code_as_lst):
             except:
                 print("Typo in instruction. Please check your assembly code again!")
         #IDK WHAT THIS DOES BUT YEH INF LOOP BANA RAHA AAAAAAAAAA
-        # case _:
-        #     if line_lst[0][-1] == ":":
-        #         jump_to_addr = binary_to_decimal(label_dic[line_lst[0]])
-        #         line_index = jump_to_addr-1
+        case _:
+            if line_lst[0][-1] == ":":
+                jump_to_addr = binary_to_decimal(label_dic[line_lst[0]])
+                # line_index = jump_to_addr-1
             
-        #     else:                 
-        #         print("Error: Operation does not exist")
+            else:                 
+                print("Error: Operation does not exist")
         
 
     output.append(line_output) if flag else True
+    line_cnt += 1
     line_index += 1
 
 #to delete empty lines from output
@@ -300,5 +301,5 @@ to_write = '\n'.join(output)
 
 with open("output_1.txt", 'w') as f:
     f.write(to_write)
-
+print(var_dic)
 print(label_dic)
