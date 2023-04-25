@@ -1,4 +1,3 @@
-var X
 mov R1 $10
 mov R2 $100
 mul R3 R2 R1

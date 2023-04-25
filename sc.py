@@ -111,8 +111,10 @@ for line in code_as_lst:
 
         case "st":
             line_output = "00101"
-            line_output = type_D(line_output, line_lst, registers)
-
+            try:
+                line_output = type_D(line_output, line_lst, registers)
+            except KeyError:
+                print("Error, use of undeclared variable.")
         case "mul":
             line_output = "00110"
             line_output = type_A(line_output, line_lst, registers)
@@ -151,12 +153,16 @@ for line in code_as_lst:
 
         case "jmp":
             line_output = "01111"
-            line_output = type_E(line_output, line_lst)
+            try:
+                line_output = type_E(line_output, line_lst)
+            except:
+                print("Error, label does not exist")
 
 
         case "jlt":
             line_output = "11100"
-            line_output = type_E(line_output, line_lst)
+            try:
+                line_output = type_E(line_output, line_lst)
 
 
         case "jgt":
