@@ -101,24 +101,45 @@ while line_index<len(code_as_lst):
 
         case "add":                                                                            
             line_output = "00000"
-            line_output = type_A(line_output, line_lst, registers)
+            try:
+                line_output = type_A(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "sub":                                                                             
             line_output = "00001"
-            line_output = type_A(line_output, line_lst, registers)
+            try:
+                line_output = type_A(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "mov":
             if (line_lst[2][0] == "$"):
                 line_output = "00010"
-                line_output = type_B(line_output, line_lst, registers)
+                try:
+                    line_output = type_B(line_output, line_lst, registers)
+                except:
+                    print("Type in instruction. Please check your assembly code again!")
+
 
             else:
                 line_output = "00011"
-                line_output = type_C(line_output, line_lst, registers)
+                try:
+                    line_output = type_C(line_output, line_lst, registers)
+                except:
+                    print("Type in instruction. Please check your assembly code again!")
+
 
         case "ld":
             line_output = "00100"
-            line_output = type_D(line_output, line_lst, registers)
+            try:
+                line_output = type_D(line_output, line_lst, registers)
+            except KeyError:
+                print("Error, use of undeclared variable.")
+            except:
+                print("Type in instruction. Please check your assembly code again!")
 
         case "st":
             line_output = "00101"
@@ -126,25 +147,48 @@ while line_index<len(code_as_lst):
                 line_output = type_D(line_output, line_lst, registers)
             except KeyError:
                 print("Error, use of undeclared variable.")
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+            
         case "mul":
             line_output = "00110"
-            line_output = type_A(line_output, line_lst, registers)
+            try:
+                line_output = type_A(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "div":
             line_output = "00111"
-            line_output = type_C(line_output, line_lst, registers)
+            try:
+                line_output = type_C(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "rs":
             line_output = "01000"
-            line_output = type_B(line_output, line_lst, registers)
+            try:
+                line_output = type_B(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "ls":
             line_output = "01001"
-            line_output = type_B(line_output, line_lst, registers)
+            try:
+                line_output = type_B(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "xor":
             line_output = "01010"
-            line_output = type_A(line_output, line_lst, registers)
+            try:
+                line_output = type_A(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "or":
             line_output = "01011"
@@ -152,38 +196,66 @@ while line_index<len(code_as_lst):
 
         case "and":
             line_output = "01100"
-            line_output = type_A(line_output, line_lst, registers)
+            try:
+                line_output = type_A(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "not":
             line_output = "01101"
-            line_output = type_C(line_output, line_lst, registers)
+            try:
+                line_output = type_C(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "cmp":
             line_output = "01110"
-            line_output = type_C(line_output, line_lst, registers)
+            try:
+                line_output = type_C(line_output, line_lst, registers)
+            except:
+                print("Type in instruction. Please check your assembly code again!")
+
 
         case "jmp":
             line_output = "01111"
             try:
                 line_output = type_E(line_output, line_lst)
+            except KeyError:
+                print("Error, label does not exist.")
             except:
-                print("Error, label does not exist")
+                print("Type in instruction. Please check your assembly code again!")
 
 
         case "jlt":
             line_output = "11100"
             try:
                 line_output = type_E(line_output, line_lst)
+            except KeyError:
+                print("Error, label does not exist.")
+            except:
+                print("Type in instruction. Please check your assembly code again!")
 
 
         case "jgt":
             line_output = "11101"
-            line_output = type_E(line_output, line_lst)
+            try:
+                line_output = type_E(line_output, line_lst)
+            except KeyError:
+                print("Error, label does not exist.")
+            except:
+                print("Type in instruction. Please check your assembly code again!")
 
 
         case "je":
             line_output = "11111"
-            line_output = type_E(line_output, line_lst)
+            try:
+                line_output = type_E(line_output, line_lst)
+            except KeyError:
+                print("Error, label does not exist.")
+            except:
+                print("Type in instruction. Please check your assembly code again!")
 
         case _:
             if line_lst[0][-1] == ":":
