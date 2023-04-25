@@ -1,4 +1,9 @@
 # co-project
-Computer organisation (CSE112) Group Project to create an assembler
+CSE112 - Computer Organisation\n
+Semester Group Project
 
-Tanish, Riya, Prashi and Surat
+# Collaborators
+Prashi Jain @ded-avishi\n
+Surat Stahi Samanta @surat-ss\n
+Riya Sachdeva @riyasach189\n
+Tanish Verma @VerTanish
