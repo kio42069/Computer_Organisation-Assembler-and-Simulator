@@ -18,3 +18,4 @@ def decimal_to_binary(n):
 
 n = int(input("n: "))
 print(decimal_to_binary(n))
+
