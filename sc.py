@@ -303,3 +303,5 @@ with open("output_1.txt", 'w') as f:
     f.write(to_write)
 print(var_dic)
 print(label_dic)
+
+#test commit
