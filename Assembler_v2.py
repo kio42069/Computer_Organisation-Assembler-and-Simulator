@@ -91,6 +91,8 @@ to_write = ""
 with open("output_1.txt", 'w') as f:
     f.write(to_write)
 
+
+# for testing pr
 print(variables)
 print("\n")
 print(labels)
