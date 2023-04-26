@@ -86,7 +86,7 @@ for line in code_as_lst:
 
     match line_lst[0]:
         case "var":
-            variables[line_lst[1]].append("0")
+            variables[line_lst[1]] = "0"
 
         case "hlt":
             line_output = "1101000000000000"
@@ -147,7 +147,7 @@ for line in code_as_lst:
 
         case _:
             if (line_lst[0][-1] == ':'):
-                labels[line_lst[0]].append("0")
+                labels[line_lst[0]] = "0"
 
             else:
                 print("Error: Operation does not exist")
@@ -169,7 +169,5 @@ with open("output_1.txt", 'w') as f:
 
 # for testing pr
 print(variables)
-print("\n")
 print(labels)
-print("\n")
 print(output)
