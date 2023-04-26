@@ -79,6 +79,81 @@ registers = {"R0": "000", "R1": "001", "R2": "010", "R3": "011", "R4": "100", "R
 - initialise entries of output dictionary
 """
 
+for line in code_as_lst:
+    line_lst = line.split()
+
+    line_output = ""
+
+    match line_lst[0]:
+        case "var":
+            variables[line_lst[1]].append("0")
+
+        case "hlt":
+            line_output = "1101000000000000"
+            line_counter += 1
+
+        #type A instructions
+        case "add":                                                                            
+            line_output = "00000"
+            line_output = type_A(line_output, line_lst, registers)
+            line_counter += 1
+
+        case "sub":                                                                             
+            line_output = "00001"
+            line_output = type_A(line_output, line_lst, registers)
+            line_counter += 1
+
+        case "mul":
+            line_output = "00110"
+            line_output = type_A(line_output, line_lst, registers)
+            line_counter += 1
+
+        case "xor":
+            line_output = "01010"
+            line_output = type_A(line_output, line_lst, registers)
+            line_counter += 1
+
+        case "or":
+            line_output = "01011"
+            line_output = type_A(line_output, line_lst, registers)
+            line_counter += 1
+
+        case "and":
+            line_output = "01100"
+            line_output = type_A(line_output, line_lst, registers)
+            line_counter += 1
+
+        #type B instructions
+        case "mov":
+            if (line_lst[2][0] == "$"):
+                line_output = "00010"
+                line_output = type_B(line_output, line_lst, registers)
+                line_counter += 1
+
+            else:       #type C (there are two mov instructions)                                                  
+                line_output = "00011"
+                line_output = type_C(line_output, line_lst, registers)
+                line_counter += 1
+
+        case "rs":
+            line_output = "01000"
+            line_output = type_B(line_output, line_lst, registers)
+            line_counter += 1
+
+        case "ls":
+            line_output = "01001"
+            line_output = type_B(line_output, line_lst, registers)
+            line_counter += 1
+
+        case _:
+            if (line_lst[0][-1] == ':'):
+                labels[line_lst[0]].append("0")
+
+            else:
+                print("Error: Operation does not exist")
+
+
+
 # pass 2
 """
 - replace labels and vars with their addresses
