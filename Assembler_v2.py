@@ -4,23 +4,27 @@
 # jump instructions (type E) use labels
 # all instructions using mem_addr use labels/vars
 
-def decimal_to_binary(n):
-    result = 0
-    digits = 0
+# def decimal_to_binary(n):
+#     result = 0
+#     digits = 0
     
-    while(n):
-        result = (result*10) + (n%2)
-        n //= 2
-        digits += 1
+#     while(n):
+#         result = (result*10) + (n%2)
+#         n //= 2
+#         digits += 1
 
-    result = str(result)
+#     result = str(result)
 
-    while (digits < 7):
-        result = "0" + result
-        digits += 1
+#     while (digits < 7):
+#         result = "0" + result
+#         digits += 1
 
-    return result
+#     return result
 
+def decimal_to_binary(n):
+    output_binary_code = bin(n)[2:]
+    x = 16-len(output_binary_code)
+    return output_binary_code
 
 #3 register type
 def type_A(line_output, line_lst, registers):
@@ -32,7 +36,10 @@ def type_A(line_output, line_lst, registers):
 def type_B(line_output, line_lst, registers):
     imm = int(line_lst[2][1:])
     imm = decimal_to_binary(imm)
-    line_output += f"0{registers[line_lst[1]]}{imm}"
+    length_of_imm_to_be_added = 7 - len(imm)       # handle overflow of 7 bits just before here pls
+    for i in range(length_of_imm_to_be_added):
+        imm = '0' + imm
+    line_output += f"0{registers[line_lst[1]]}{imm}"  
 
     return line_output
 
@@ -45,7 +52,7 @@ def type_C(line_output, line_lst, registers):
 
 #register and memory address type (variable)
 def type_D(line_output, line_lst):
-    line_output += f"0{registers[line_lst[1]]}{variables[line_lst[2]]}"
+    line_output += f" 0 {registers[line_lst[1]]} {variables[line_lst[2]]}"
     return line_output
 
 
@@ -167,9 +174,31 @@ for line in code_as_lst:
             line_counter += 1
 
         #type D instructions
-        
+        case "ld":
+            line_output = "00100"
+            line_output = type_D(line_output, line_lst)
+            line_counter += 1
+
+        case "st":
+            line_output = "00101"
+            line_output = type_D(line_output, line_lst)
+            line_counter += 1
 
         #type E instructions
+        case "jmp":
+            pass
+
+        case "jlt":
+            pass
+
+        case "jgt":
+            pass
+
+        case "je":
+            pass
+
+
+        #default case and label check
         case _:
             if (line_lst[0][-1] == ':'):
                 labels[line_lst[0]] = "0"
@@ -178,7 +207,8 @@ for line in code_as_lst:
                 print(line_lst)
                 print("Error: Operation does not exist")
 
-
+    if len(line_output) != 0:
+        output[line_counter] = line_output
 
 # pass 2
 """
@@ -188,6 +218,8 @@ for line in code_as_lst:
 
 #code to merge the binary code, ie. values of output dictionary
 to_write = ""
+for i in output:
+    to_write += str(i) + " : " + str(output[i]) + "\n"
 
 with open("output_1.txt", 'w') as f:
     f.write(to_write)
