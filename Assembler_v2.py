@@ -7,7 +7,6 @@
 
 def decimal_to_binary(n):
     output_binary_code = bin(n)[2:]
-    x = 16-len(output_binary_code)
     return output_binary_code
 
 #3 register type
@@ -203,6 +202,7 @@ for line in code_as_lst:
         output[line_counter] = line_output
 
 # pass 2
+lab_list
 """
 - replace labels and vars with their addresses
 - update entries of output dictionary
