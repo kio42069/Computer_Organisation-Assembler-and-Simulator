@@ -4,22 +4,6 @@
 # jump instructions (type E) use labels
 # all instructions using mem_addr use labels/vars
 
-# def decimal_to_binary(n):
-#     result = 0
-#     digits = 0
-    
-#     while(n):
-#         result = (result*10) + (n%2)
-#         n //= 2
-#         digits += 1
-
-#     result = str(result)
-
-#     while (digits < 7):
-#         result = "0" + result
-#         digits += 1
-
-#     return result
 
 def decimal_to_binary(n):
     output_binary_code = bin(n)[2:]
@@ -52,7 +36,7 @@ def type_C(line_output, line_lst, registers):
 
 #register and memory address type (variable)
 def type_D(line_output, line_lst):
-    line_output += f" 0 {registers[line_lst[1]]} {variables[line_lst[2]]}"
+    line_output += f"0{registers[line_lst[1]]}{variables[line_lst[2]]}"
     return line_output
 
 
@@ -215,7 +199,7 @@ for line in code_as_lst:
                 print(line_lst)
                 print("Error: Operation does not exist")
 
-    if len(line_output) != 0:
+    if len(line_output) != 0:  #line_output is empty string in case of label or var so we dont store it
         output[line_counter] = line_output
 
 # pass 2
@@ -231,10 +215,3 @@ for i in output:
 
 with open("output_1.txt", 'w') as f:
     f.write(to_write)
-
-
-# for testing pr
-print(variables)
-print(labels)
-print(output)
-print(line_counter)
