@@ -186,16 +186,24 @@ for line in code_as_lst:
 
         #type E instructions
         case "jmp":
-            pass
+            line_output = "01111"
+            line_output = type_E(line_output, line_lst)
+            line_counter += 1
 
         case "jlt":
-            pass
+            line_output = "11100"
+            line_output = type_E(line_output, line_lst)
+            line_counter += 1
 
         case "jgt":
-            pass
+            line_output = "11101"
+            line_output = type_E(line_output, line_lst)
+            line_counter += 1
 
         case "je":
-            pass
+            line_output = "11111"
+            line_output = type_E(line_output, line_lst)
+            line_counter += 1
 
 
         #default case and label check
