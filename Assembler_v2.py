@@ -70,6 +70,10 @@ line_counter = 0
 flags_register = "0000_0000_0000_0000"
 registers = {"R0": "000", "R1": "001", "R2": "010", "R3": "011", "R4": "100", "R5": "101", "R6": "110", "FLAGS": "111"}
 
+#removing empty lines from code_as_lst
+# print(code_as_lst)
+
+
 # pass 1
 """
 - count lines in the code
@@ -145,11 +149,33 @@ for line in code_as_lst:
             line_output = type_B(line_output, line_lst, registers)
             line_counter += 1
 
+
+        #type C instructions
+        case "div":
+            line_output = "00111"
+            line_output = type_C(line_output, line_lst, registers)
+            line_counter += 1
+
+        case "not":
+            line_output = "01101"
+            line_output = type_C(line_output, line_lst, registers)
+            line_counter += 1
+
+        case "cmp":
+            line_output = "01110"
+            line_output = type_C(line_output, line_lst, registers)
+            line_counter += 1
+
+        #type D instructions
+        
+
+        #type E instructions
         case _:
             if (line_lst[0][-1] == ':'):
                 labels[line_lst[0]] = "0"
 
             else:
+                print(line_lst)
                 print("Error: Operation does not exist")
 
 
@@ -171,3 +197,4 @@ with open("output_1.txt", 'w') as f:
 print(variables)
 print(labels)
 print(output)
+print(line_counter)
