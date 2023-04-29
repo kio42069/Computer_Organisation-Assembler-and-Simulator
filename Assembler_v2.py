@@ -5,6 +5,9 @@
 # all instructions using mem_addr use labels/vars
 
 
+#global errors list
+errors = []
+
 def decimal_to_binary(n):
     output_binary_code = bin(n)[2:]
     return output_binary_code
@@ -252,7 +255,7 @@ for line in code_as_lst:
                 line_output = "1101000000000000"
 
             #type A instructions
-            case "add":                                                                            
+            case "add":
                 line_output = "00000"
                 line_output = type_A(line_output, temp_lst, registers)
 
@@ -346,7 +349,12 @@ for line in code_as_lst:
 
 #sort output in terms of index
 output_keys = sorted(list(output.keys()))
-sorted_output = {i: output[i] for i in output_keys}
+sorted_output = {i: output[i] for i in output_keys}  #dictionary sorted hi toh tha pehle se
+
+# Missing HLT instruction
+binary_instruction_values = sorted_output.values()
+if "1101000000000000" not in binary_instruction_values:
+    errors.append("ERROR : Missing hlt instruction")
 
 #code to merge the binary code, ie. values of output dictionary
 to_write = ""
