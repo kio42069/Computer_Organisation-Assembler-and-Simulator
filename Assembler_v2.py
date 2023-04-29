@@ -50,7 +50,7 @@ def type_E(line_output, line_lst):
 with open("test_case_1.txt", 'r') as f:
     code_as_lst = f.readlines()
 
-# code to remove empty lines from input
+
 
 variables = {}          #"var_name":"var_address"
 labels = {}             #"label_name":"label_address"
@@ -61,8 +61,10 @@ flags_register = "0000_0000_0000_0000"
 registers = {"R0": "000", "R1": "001", "R2": "010", "R3": "011", "R4": "100", "R5": "101", "R6": "110", "FLAGS": "111"}
 
 #removing empty lines from code_as_lst
-# print(code_as_lst)
-
+if (code_as_lst):
+    for i in range(0, len(code_as_lst) - 1):
+        if (code_as_lst[i] == "" or code_as_lst[i] == "\n"):
+            code_as_lst.pop(i)
 
 # pass 1
 """
