@@ -191,8 +191,11 @@ for line in code_as_lst:
 
         #default case and label check
         case _:
-            if (line_lst[0][-1] == ':'):
-                labels[line_lst[0]] = "0"
+            if (line_lst[0][-1] == ':'):                                #key-value pair is label-address in 7-bit binary
+                temp_addr = decimal_to_binary(line_counter)
+                temp_addr = "0"*(7 - len(temp_addr)) + temp_addr
+                labels[line_lst[0]] = temp_addr
+                line_counter += 1
 
             else:
                 print(line_lst)
@@ -202,16 +205,151 @@ for line in code_as_lst:
         output[line_counter] = line_output
 
 # pass 2
-lab_list
 """
 - replace labels and vars with their addresses
 - update entries of output dictionary
 """
+temp_cnt = 0
+
+for line in code_as_lst:
+    line_lst = line.split()
+
+    pass_2_flag = False
+
+    "creating a temp counter (doesn't follow zero based indexing)"
+    if (line_lst[0] != "var"):    
+        temp_cnt += 1
+
+    """replacing variables with their 7-bit addresses (zero based indexing), 
+    as they are encountered"""
+    if (line_lst[0] == "var") and (line_lst[1] in variables.keys()):
+        address = decimal_to_binary(line_counter)
+        address = "0"*(7 - len(address)) + address
+        variables[line_lst[1]] = address
+        line_counter += 1
+
+    "making the flag True only when load, store or label is encountered"
+    if (line_lst[0] == "ld" or line_lst[0] =="st"):
+        pass_2_flag = True
+        temp_lst = line_lst
+
+    elif (line_lst[0][-1] == ":"):
+        dec_addr = labels[line_lst[0]]
+        temp_cnt = int(dec_addr,2)+1
+        temp_lst = line_lst[1:]
+        pass_2_flag = True
+    
+    """match case to manipulate changes in labels and variables,
+    removed counter as temp counter would be sufficient"""
+    if (pass_2_flag):
+        match temp_lst[0]:
+            case "var":
+                variables[line_lst[1]] = "0"
+
+            case "hlt":
+                line_output = "1101000000000000"
+
+            #type A instructions
+            case "add":                                                                            
+                line_output = "00000"
+                line_output = type_A(line_output, temp_lst, registers)
+
+            case "sub":                                                                             
+                line_output = "00001"
+                line_output = type_A(line_output, temp_lst, registers)
+
+            case "mul":
+                line_output = "00110"
+                line_output = type_A(line_output, temp_lst, registers)
+
+            case "xor":
+                line_output = "01010"
+                line_output = type_A(line_output, temp_lst, registers)
+
+            case "or":
+                line_output = "01011"
+                line_output = type_A(line_output, temp_lst, registers)
+
+            case "and":
+                line_output = "01100"
+                line_output = type_A(line_output, temp_lst, registers)
+
+            #type B instructions
+            case "mov":
+                if (temp_lst[2][0] == "$"):
+                    line_output = "00010"
+                    line_output = type_B(line_output, temp_lst, registers)
+
+                else:       #type C (there are two mov instructions)                                                  
+                    line_output = "00011"
+                    line_output = type_C(line_output, temp_lst, registers)
+
+            case "rs":
+                line_output = "01000"
+                line_output = type_B(line_output, temp_lst, registers)
+
+            case "ls":
+                line_output = "01001"
+                line_output = type_B(line_output, temp_lst, registers)
+
+
+            #type C instructions
+            case "div":
+                line_output = "00111"
+                line_output = type_C(line_output, temp_lst, registers)
+
+            case "not":
+                line_output = "01101"
+                line_output = type_C(line_output, temp_lst, registers)
+
+            case "cmp":
+                line_output = "01110"
+                line_output = type_C(line_output, temp_lst, registers)
+
+            #type D instructions
+            case "ld":
+                line_output = "00100"
+                line_output = type_D(line_output, temp_lst)
+
+            case "st":
+                line_output = "00101"
+                line_output = type_D(line_output, temp_lst)
+
+            #type E instructions
+            case "jmp":
+                line_output = "01111"
+                line_output = type_E(line_output, temp_lst)
+
+            case "jlt":
+                line_output = "11100"
+                line_output = type_E(line_output, temp_lst)
+
+            case "jgt":
+                line_output = "11101"
+                line_output = type_E(line_output, temp_lst)
+
+            case "je":
+                line_output = "11111"
+                line_output = type_E(line_output, temp_lst)
+
+
+            #default case
+            case _:
+                print(line_lst)
+                print("Error: Operation does not exist")
+
+        if len(line_output) != 0:  #line_output is empty string in case of label or var so we dont store it
+            output[temp_cnt] = line_output
+
+
+#sort output in terms of index
+output_keys = sorted(list(output.keys()))
+sorted_output = {i: output[i] for i in output_keys}
 
 #code to merge the binary code, ie. values of output dictionary
 to_write = ""
-for i in output:
-    to_write += str(i) + " : " + str(output[i]) + "\n"
+for i in sorted_output:
+    to_write += str(i) + " : " + str(sorted_output[i]) + "\n"
 
 with open("output_1.txt", 'w') as f:
     f.write(to_write)

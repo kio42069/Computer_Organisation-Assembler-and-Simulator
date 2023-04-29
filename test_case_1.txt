@@ -6,5 +6,5 @@ mul R3 R2 R1
 ls R1 $93
 st R3 X
 var H
-masti:
+masti: st R5 Y
 hlt
