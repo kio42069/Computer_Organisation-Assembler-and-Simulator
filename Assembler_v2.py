@@ -14,24 +14,14 @@ def decimal_to_binary(n):
 
 #3 register type
 def type_A(line_output, line_lst, registers):
-    register1 = line_lst[1]
-    register2 = line_lst[2]
-    register3 = line_lst[2]
-    if register1 not in registers or register2 not in registers or register3 not in registers:
-        errors.append("ERROR : Incorrect register name")
     line_output += f"00{registers[line_lst[1]]}{registers[line_lst[2]]}{registers[line_lst[3]]}"
     return line_output
 
 
 #register and immediate type
 def type_B(line_output, line_lst, registers):
-    register = line_lst[1]
-    if register not in registers:
-        errors.append("ERROR : Incorrect register name")
     imm = int(line_lst[2][1:])
     imm = decimal_to_binary(imm)
-    if len(imm) > 7:
-        errors.append("Illegal Immdiate value")
     length_of_imm_to_be_added = 7 - len(imm)       # handle overflow of 7 bits just before here pls
     for i in range(length_of_imm_to_be_added):
         imm = '0' + imm
@@ -42,25 +32,12 @@ def type_B(line_output, line_lst, registers):
 
 #2 register type
 def type_C(line_output, line_lst, registers):
-    register1 = line_lst[1]
-    register2 = line_lst[2]
-    if register1 not in registers or register2 not in registers:
-        errors.append("ERROR : Incorrect register name")
     line_output += f"00000{registers[line_lst[1]]}{registers[line_lst[2]]}"
     return line_output
 
 
 #register and memory address type (variable)
 def type_D(line_output, line_lst):
-    register = line_lst[1]
-    if register not in registers:
-        errors.append("ERROR : Incorrect register name")
-    variable = line_lst[2]
-    if variable not in variables:
-        if variable not in labels and variable + ":" not in labels:
-            errors.append("ERROR : Using undefined variable")
-        else:
-            errors.append("ERROR : Misuse of label as variable")
     line_output += f"0{registers[line_lst[1]]}{variables[line_lst[2]]}"
     return line_output
 
@@ -68,13 +45,8 @@ def type_D(line_output, line_lst):
 #memory address type (jump to a label)
 def type_E(line_output, line_lst):
     line_output += "0000"
-    label = line_lst[1]
-    if label not in labels:
-        if label not in variables and label[:len(label)-1] not in variables:
-            errors.append("ERROR : Using undefined label")
-        else:
-            errors.append("ERROR : Misuse of variable as label")
     line_output += labels[line_lst[1]]
+
     return line_output
 
 
@@ -93,21 +65,9 @@ registers = {"R0": "000", "R1": "001", "R2": "010", "R3": "011", "R4": "100", "R
 
 #removing empty lines from code_as_lst
 if (code_as_lst):
-    i = 0
-    while(i < len(code_as_lst)):
+    for i in range(0, len(code_as_lst) - 1):
         if (code_as_lst[i] == "" or code_as_lst[i] == "\n"):
             code_as_lst.pop(i)
-        else:
-            i += 1
-
-index = 0
-while(code_as_lst[index][:3] == 'var'):
-    index += 1
-while(index < len(code_as_lst)):
-    if code_as_lst[index][:3] == 'var':
-        errors.append("ERROR : All variables not declared at the beginning")
-        break
-    index += 1
 
 # pass 1
 """
@@ -244,7 +204,7 @@ for line in code_as_lst:
 
             else:
                 print(line_lst)
-                errors.append("Error: Operation does not exist")
+                print("Error: Operation does not exist")
 
     if len(line_output) != 0:  #line_output is empty string in case of label or var so we dont store it
         output[line_counter] = line_output
@@ -395,9 +355,6 @@ sorted_output = {i: output[i] for i in output_keys}  #dictionary sorted hi toh t
 binary_instruction_values = sorted_output.values()
 if "1101000000000000" not in binary_instruction_values:
     errors.append("ERROR : Missing hlt instruction")
-elif list(binary_instruction_values).index("1101000000000000") != len(binary_instruction_values)-1:
-    errors.append("ERROR : hlt not last instruction")
-
 
 #code to merge the binary code, ie. values of output dictionary
 to_write = ""
@@ -406,6 +363,3 @@ for i in sorted_output:
 
 with open("output_1.txt", 'w') as f:
     f.write(to_write)
-print(errors)
-print(variables)
-print(labels)
