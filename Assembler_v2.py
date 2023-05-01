@@ -212,7 +212,7 @@ for line in code_as_lst:
             line_output = type_D(line_output, line_lst)
             line_counter += 1
 
-        #type E instructions
+:        #type E instructions
         case "jmp":
             line_output = "01111"
             line_output = type_E(line_output, line_lst)
