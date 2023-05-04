@@ -229,8 +229,6 @@ for line in code_as_lst:
         line_counter += 1
 
     elif (line_lst[0][-1] == ":"):
-        dec_addr = labels[line_lst[0]]
-        temp_cnt = int(dec_addr,2) + 1
         temp_lst = line_lst[1:]
     
     #match case to manipulate changes in labels and variables, removed counter as temp counter would be sufficient
