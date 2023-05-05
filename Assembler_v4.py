@@ -231,7 +231,7 @@ for line in code_as_lst:
             if (line_lst[0][-1] == ':'):                                #key-value pair is label-address in 7-bit binary
                 temp_addr = decimal_to_binary(line_counter)
                 temp_addr = "0"*(7 - len(temp_addr)) + temp_addr
-                labels[line_lst[0]] = temp_addr
+                labels[line_lst[0][:-1]] = temp_addr
                 line_counter += 1
 
             else:
@@ -268,6 +268,9 @@ for line in code_as_lst:
     
     #match case to manipulate changes in labels and variables, removed counter as temp counter would be sufficient
     match temp_lst[0]:
+
+        case "var":
+            pass
 
         case "hlt":
             line_output = "1101000000000000"
@@ -381,7 +384,7 @@ for i in output:
 
 with open("output_1.txt", 'w') as f:
     f.write(to_write)
-    
+
 
 print(errors)
 print(variables)
