@@ -27,14 +27,14 @@ def decimal_to_binary(n):
 
 #3 register type
 def type_A(line_output, line_lst, registers):
-    global line_counter, alt_counter
+    global temp_cnt, alt_counter
     register1 = line_lst[1]
     register2 = line_lst[2]
     register3 = line_lst[3]
 
     if (register1 not in registers) or (register2 not in registers) or (register3 not in registers):
         errors.append("ERROR : Invalid Register")
-        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Invalid Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         return "ERROR"
 
     line_output += f"00{registers[register1]}{registers[register2]}{registers[register3]}"
@@ -43,20 +43,20 @@ def type_A(line_output, line_lst, registers):
 
 #register and immediate type
 def type_B(line_output, line_lst, registers):
-    global line_counter, alt_counter
+    global temp_cnt, alt_counter
 
     register = line_lst[1]
 
     if register not in registers:
         errors.append("ERROR : Invalid Register")
-        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Invalid Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         return "ERROR"
 
     imm = int(line_lst[2][1:])
 
     if (imm < 0) or (imm > 127):
         errors.append("ERROR : Illegal Immediate Value")
-        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Illegal Immediate Value"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal Immediate Value"
         return "ERROR"
 
     imm = decimal_to_binary(imm)
@@ -72,12 +72,12 @@ def type_B(line_output, line_lst, registers):
 
 #2 register type
 def type_C(line_output, line_lst, registers):
-    global line_counter, alt_counter
+    global temp_cnt, alt_counter
     register1 = line_lst[1]
     register2 = line_lst[2]
 
     if (register1 not in registers) or (register2 not in registers):
-        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Invalid Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         errors.append("ERROR : Invalid Register")
         return "ERROR"
     
@@ -87,11 +87,11 @@ def type_C(line_output, line_lst, registers):
 
 #register and memory address type (variable)
 def type_D(line_output, line_lst):
-    global line_counter, alt_counter
+    global temp_cnt, alt_counter
     register = line_lst[1]
 
     if register not in registers:
-        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Invalid Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         errors.append("ERROR : Invalid Register")
         return "ERROR"
         
@@ -99,12 +99,12 @@ def type_D(line_output, line_lst):
 
     if variable not in variables:
         if variable not in labels:
-            ERRORS_DIC[line_counter+alt_counter] = "ERROR : Undefined Variable"
+            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Undefined Variable"
             errors.append("ERROR : Undefined Variable")
             return "ERROR"
         
         else:
-            ERRORS_DIC[line_counter+alt_counter] = "ERROR : Misuse of label as variable"
+            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Misuse of label as variable"
             errors.append("ERROR : Misuse of label as variable")
             return "ERROR"
         
@@ -114,18 +114,18 @@ def type_D(line_output, line_lst):
 
 #memory address type (jump to a label)
 def type_E(line_output, line_lst):
-    global line_counter, alt_counter
+    global temp_cnt, alt_counter
     line_output += "0000"
 
     label = line_lst[1]
     if label not in labels:
         if label not in variables:
-            ERRORS_DIC[line_counter+alt_counter] = "ERROR : Undefined Label"
+            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Undefined Label"
             errors.append("ERROR : Undefined Label")
             return "ERROR"
         
         else:
-            ERRORS_DIC[line_counter+alt_counter] = "ERROR : Misuse of variable as label"
+            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Misuse of variable as label"
             errors.append("ERROR : Misuse of variable as label")
             return "ERROR"
         
@@ -252,10 +252,9 @@ for line in code_as_lst:
                 line_counter += 1
 
             else:
-                print(line_lst)
+                alt_counter += 1
                 ERRORS_DIC[line_counter+alt_counter] = "Error: Operation does not exist"
                 errors.append("Error: Operation does not exist")
-                alt_counter += 1
 
 
 # pass 2
@@ -265,7 +264,7 @@ for line in code_as_lst:
 """
 
 temp_cnt = 0
-
+alt_counter = 0
 for line in code_as_lst:
     line_lst = line.split()
 
@@ -287,7 +286,7 @@ for line in code_as_lst:
     match temp_lst[0]:
 
         case "var":
-            pass
+            alt_counter += 1
 
         case "hlt":
             line_output = "1101000000000000"
@@ -410,4 +409,9 @@ for i in output:
 with open("output_1.txt", 'w') as f:
     f.write(to_write)
 
-print(ERRORS_DIC)
+to_write = ""
+for i in ERRORS_DIC:
+    to_write += str(i) + " : " + ERRORS_DIC[i] + "\n"
+
+with open("errors.txt", 'w') as f:
+    f.write(to_write)
