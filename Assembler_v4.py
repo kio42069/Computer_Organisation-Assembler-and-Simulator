@@ -9,6 +9,9 @@
 #global errors list
 errors = []
 
+#global errors dictionary
+ERRORS_DIC = {}
+
 #global dicts
 variables = {}          #"var_name":"var_address"
 labels = {}             #"label_name":"label_address"
@@ -22,15 +25,16 @@ def decimal_to_binary(n):
     output_binary_code = bin(n)[2:]
     return output_binary_code
 
-
 #3 register type
 def type_A(line_output, line_lst, registers):
+    global line_counter, alt_counter
     register1 = line_lst[1]
     register2 = line_lst[2]
     register3 = line_lst[3]
 
     if (register1 not in registers) or (register2 not in registers) or (register3 not in registers):
         errors.append("ERROR : Invalid Register")
+        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Invalid Register"
         return "ERROR"
 
     line_output += f"00{registers[register1]}{registers[register2]}{registers[register3]}"
@@ -39,17 +43,20 @@ def type_A(line_output, line_lst, registers):
 
 #register and immediate type
 def type_B(line_output, line_lst, registers):
+    global line_counter, alt_counter
 
     register = line_lst[1]
 
     if register not in registers:
         errors.append("ERROR : Invalid Register")
+        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Invalid Register"
         return "ERROR"
 
     imm = int(line_lst[2][1:])
 
     if (imm < 0) or (imm > 127):
         errors.append("ERROR : Illegal Immediate Value")
+        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Illegal Immediate Value"
         return "ERROR"
 
     imm = decimal_to_binary(imm)
@@ -65,10 +72,12 @@ def type_B(line_output, line_lst, registers):
 
 #2 register type
 def type_C(line_output, line_lst, registers):
+    global line_counter, alt_counter
     register1 = line_lst[1]
     register2 = line_lst[2]
 
     if (register1 not in registers) or (register2 not in registers):
+        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Invalid Register"
         errors.append("ERROR : Invalid Register")
         return "ERROR"
     
@@ -78,9 +87,11 @@ def type_C(line_output, line_lst, registers):
 
 #register and memory address type (variable)
 def type_D(line_output, line_lst):
+    global line_counter, alt_counter
     register = line_lst[1]
 
     if register not in registers:
+        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Invalid Register"
         errors.append("ERROR : Invalid Register")
         return "ERROR"
         
@@ -88,10 +99,12 @@ def type_D(line_output, line_lst):
 
     if variable not in variables:
         if variable not in labels:
+            ERRORS_DIC[line_counter+alt_counter] = "ERROR : Undefined Variable"
             errors.append("ERROR : Undefined Variable")
             return "ERROR"
         
         else:
+            ERRORS_DIC[line_counter+alt_counter] = "ERROR : Misuse of label as variable"
             errors.append("ERROR : Misuse of label as variable")
             return "ERROR"
         
@@ -101,15 +114,18 @@ def type_D(line_output, line_lst):
 
 #memory address type (jump to a label)
 def type_E(line_output, line_lst):
+    global line_counter, alt_counter
     line_output += "0000"
 
     label = line_lst[1]
     if label not in labels:
         if label not in variables:
+            ERRORS_DIC[line_counter+alt_counter] = "ERROR : Undefined Label"
             errors.append("ERROR : Undefined Label")
             return "ERROR"
         
         else:
+            ERRORS_DIC[line_counter+alt_counter] = "ERROR : Misuse of variable as label"
             errors.append("ERROR : Misuse of variable as label")
             return "ERROR"
         
@@ -138,9 +154,8 @@ while(code_as_lst[index][:3] == 'var'):
 while(index < len(code_as_lst)):
     if code_as_lst[index][:3] == 'var':
         errors.append("ERROR : Variable Declaration must be at the beginning")
-        break
+        ERRORS_DIC[index+1] = "ERROR : Variable Declaration must be at the beginning"
     index += 1
-
 # pass 1
 """
 - count lines in the code
@@ -151,6 +166,7 @@ while(index < len(code_as_lst)):
 """
 
 line_counter = 0
+alt_counter = 0
 
 for line in code_as_lst:
     line_lst = line.split()
@@ -158,15 +174,16 @@ for line in code_as_lst:
     match line_lst[0]:
         case "var":
             variables[line_lst[1]] = "0"
+            alt_counter += 1
 
         case "hlt":
             line_counter += 1
 
         #type A instructions
-        case "add":                                                                            
+        case "add":
             line_counter += 1
 
-        case "sub":                                                                             
+        case "sub":
             line_counter += 1
 
         case "mul":
@@ -236,10 +253,10 @@ for line in code_as_lst:
 
             else:
                 print(line_lst)
+                ERRORS_DIC[line_counter+alt_counter] = "Error: Operation does not exist"
                 errors.append("Error: Operation does not exist")
+                alt_counter += 1
 
-print(variables)
-print(labels)
 
 # pass 2
 """
@@ -373,8 +390,16 @@ for line in code_as_lst:
 binary_instruction_values = output.values()
 if "1101000000000000" not in binary_instruction_values:
     errors.append("ERROR : Missing hlt instruction")
-elif list(binary_instruction_values).index("1101000000000000") != len(binary_instruction_values)-1:
-    errors.append("ERROR : hlt not last instruction")
+    ERRORS_DIC[line_counter+1] = "ERROR : Missing hlt instruction"
+else:
+    index = 0
+    for i in code_as_lst:
+        index += 1
+        if i == 'hlt' or i == 'hlt\n':
+            break
+    if index != line_counter:
+        ERRORS_DIC[index] = "ERROR  hlt not last instruction"
+        errors.append("ERROR : hlt not last instruction")
 
 
 #code to merge the binary code, ie. values of output dictionary
@@ -385,7 +410,4 @@ for i in output:
 with open("output_1.txt", 'w') as f:
     f.write(to_write)
 
-
-print(errors)
-print(variables)
-print(labels)
+print(ERRORS_DIC)
