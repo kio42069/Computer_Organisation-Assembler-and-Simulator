@@ -466,7 +466,10 @@ for i in output:
     to_write += str(i) + " : " + str(output[i]) + "\n"
 
 with open("output_1.txt", 'w') as f:
-    f.write(to_write)
+    f.write("")
+if "ERROR" not in to_write:
+    with open("output_1.txt", 'w') as f:
+        f.write(to_write)
 
 to_write = ""
 for i in ERRORS_DIC:
