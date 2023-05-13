@@ -135,7 +135,7 @@ def type_E(line_output, line_lst):
 
 for test_case in range(1,35):
 
-    with open(f"hardBinTests\\test{test_case}.txt", 'r') as f:
+    with open(f"hardBinTests/test{test_case}.txt", 'r') as f:
         code_as_lst = f.readlines()
 
     #removing empty lines from code_as_lst
@@ -168,6 +168,9 @@ for test_case in range(1,35):
 
     line_counter = 0
     alt_counter = 0
+    variables = {}
+    labels = {}
+    output = {}
 
     for line in code_as_lst:
         line_lst = line.split()
@@ -479,3 +482,4 @@ for test_case in range(1,35):
 
     with open(f"error_output\\error_dict{test_case}.txt", 'w') as f:
         f.write(to_write)
+    code_as_lst = []
