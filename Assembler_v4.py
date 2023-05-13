@@ -440,6 +440,7 @@ if "1101000000000000" not in binary_instruction_values:
 else:
     index = 0
     for i in code_as_lst:
+        i = i.strip()
         index += 1
         if i == 'hlt' or i == 'hlt\n':
             break
