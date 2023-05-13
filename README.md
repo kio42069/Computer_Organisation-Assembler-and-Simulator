@@ -23,4 +23,4 @@ We have assumed the hardBin test cases are stored in a sub-directory called hard
 
 We are creating the output files in the respective folders with the postfix Outputs
 
-The test file name format is test <number>.txt
+The test file name format is test(number).txt
