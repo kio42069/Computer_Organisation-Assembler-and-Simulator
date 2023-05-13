@@ -133,7 +133,7 @@ def type_E(line_output, line_lst):
     line_output += labels[line_lst[1]]
     return line_output
 
-for test_case in range(1,35):
+for test_case in range(1,36):
 
     with open(f"hardBinTests/test{test_case}.txt", 'r') as f:
         code_as_lst = f.readlines()
