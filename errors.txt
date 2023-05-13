@@ -1,0 +1,1 @@
+2 : ERROR : Variable Declaration must be at the beginning

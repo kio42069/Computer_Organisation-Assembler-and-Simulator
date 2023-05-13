@@ -6,8 +6,6 @@
 # jump instructions (type E) use labels
 # all instructions using mem_addr use labels/vars
 
-#global errors list
-errors = []
 
 #global errors dictionary
 ERRORS_DIC = {}
@@ -33,7 +31,6 @@ def type_A(line_output, line_lst, registers):
     register3 = line_lst[3]
 
     if (register1 not in registers) or (register2 not in registers) or (register3 not in registers):
-        errors.append("ERROR : Invalid Register")
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         return "ERROR"
 
@@ -48,14 +45,12 @@ def type_B(line_output, line_lst, registers):
     register = line_lst[1]
 
     if register not in registers:
-        errors.append("ERROR : Invalid Register")
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         return "ERROR"
 
     imm = int(line_lst[2][1:])
 
     if (imm < 0) or (imm > 127):
-        errors.append("ERROR : Illegal Immediate Value")
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal Immediate Value"
         return "ERROR"
 
@@ -78,7 +73,6 @@ def type_C(line_output, line_lst, registers):
 
     if (register1 not in registers) or (register2 not in registers):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
-        errors.append("ERROR : Invalid Register")
         return "ERROR"
     
     line_output += f"00000{registers[register1]}{registers[register2]}"
@@ -92,7 +86,6 @@ def type_D(line_output, line_lst):
 
     if register not in registers:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
-        errors.append("ERROR : Invalid Register")
         return "ERROR"
         
     variable = line_lst[2]
@@ -100,12 +93,10 @@ def type_D(line_output, line_lst):
     if variable not in variables:
         if variable not in labels:
             ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Undefined Variable"
-            errors.append("ERROR : Undefined Variable")
             return "ERROR"
         
         else:
             ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Misuse of label as variable"
-            errors.append("ERROR : Misuse of label as variable")
             return "ERROR"
         
     line_output += f"0{registers[register]}{variables[variable]}"
@@ -121,12 +112,10 @@ def type_E(line_output, line_lst):
     if label not in labels:
         if label not in variables:
             ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Undefined Label"
-            errors.append("ERROR : Undefined Label")
             return "ERROR"
         
         else:
             ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Misuse of variable as label"
-            errors.append("ERROR : Misuse of variable as label")
             return "ERROR"
         
     line_output += labels[line_lst[1]]
@@ -153,7 +142,6 @@ while(code_as_lst[index][:3] == 'var'):
 
 while(index < len(code_as_lst)):
     if code_as_lst[index][:3] == 'var':
-        errors.append("ERROR : Variable Declaration must be at the beginning")
         ERRORS_DIC[index+1] = "ERROR : Variable Declaration must be at the beginning"
     index += 1
 # pass 1
@@ -254,7 +242,6 @@ for line in code_as_lst:
             else:
                 alt_counter += 1
                 ERRORS_DIC[line_counter+alt_counter] = "Error: Operation does not exist"
-                errors.append("Error: Operation does not exist")
 
 
 # pass 2
@@ -294,90 +281,151 @@ for line in code_as_lst:
         #type A instructions
         case "add":
             line_output = "00000"
-            line_output = type_A(line_output, temp_lst, registers)
+            try:
+                line_output = type_A(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ADD"
 
         case "sub":                                                                             
             line_output = "00001"
-            line_output = type_A(line_output, temp_lst, registers)
+            try:
+                line_output = type_A(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND SUB"
 
         case "mul":
             line_output = "00110"
-            line_output = type_A(line_output, temp_lst, registers)
+            try:
+                line_output = type_A(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MUL"            
 
         case "xor":
             line_output = "01010"
-            line_output = type_A(line_output, temp_lst, registers)
+            try:
+                line_output = type_A(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND XOR"
 
         case "or":
             line_output = "01011"
-            line_output = type_A(line_output, temp_lst, registers)
+            try:
+                line_output = type_A(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND OR"
 
         case "and":
             line_output = "01100"
-            line_output = type_A(line_output, temp_lst, registers)
+            try:
+                line_output = type_A(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND AND"
+
 
         #type B instructions
         case "mov":
             if (temp_lst[2][0] == "$"):
                 line_output = "00010"
-                line_output = type_B(line_output, temp_lst, registers)
+                try:
+                    line_output = type_B(line_output, temp_lst, registers)
+                except:
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MOV"
 
             else:       #type C (there are two mov instructions)                                                  
                 line_output = "00011"
-                line_output = type_C(line_output, temp_lst, registers)
+                try:
+                    line_output = type_C(line_output, temp_lst, registers)
+                except:
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MOV"
 
         case "rs":
             line_output = "01000"
-            line_output = type_B(line_output, temp_lst, registers)
+            try:
+                line_output = type_B(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND RS"
 
         case "ls":
             line_output = "01001"
-            line_output = type_B(line_output, temp_lst, registers)
+            try:
+                line_output = type_B(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND LS"
 
 
         #type C instructions
         case "div":
             line_output = "00111"
-            line_output = type_C(line_output, temp_lst, registers)
+            try:
+                line_output = type_C(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND DIV"
 
         case "not":
             line_output = "01101"
-            line_output = type_C(line_output, temp_lst, registers)
+            try:
+                line_output = type_C(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND NOT"
 
         case "cmp":
             line_output = "01110"
-            line_output = type_C(line_output, temp_lst, registers)
+            try:
+                line_output = type_C(line_output, temp_lst, registers)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND CMP"
+
 
         #type D instructions
         case "ld":
             line_output = "00100"
-            line_output = type_D(line_output, temp_lst)
+            try:
+                line_output = type_D(line_output, temp_lst)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND LD"
+
 
         case "st":
             line_output = "00101"
-            line_output = type_D(line_output, temp_lst)
+            try:
+                line_output = type_D(line_output, temp_lst)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ST"
+
 
         #type E instructions
         case "jmp":
             line_output = "01111"
-            line_output = type_E(line_output, temp_lst)
+            try:
+                line_output = type_E(line_output, temp_lst)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JMP"
 
         case "jlt":
             line_output = "11100"
-            line_output = type_E(line_output, temp_lst)
+            try:
+                line_output = type_E(line_output, temp_lst)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JLT"
 
         case "jgt":
             line_output = "11101"
-            line_output = type_E(line_output, temp_lst)
+            try:
+                line_output = type_E(line_output, temp_lst)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JGT"
 
         case "je":
             line_output = "11111"
-            line_output = type_E(line_output, temp_lst)
+            try:
+                line_output = type_E(line_output, temp_lst)
+            except:
+                ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JE"
 
 
         #default case
         case _:
-            errors.append("Error: Operation does not exist")
+            ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ADD"
 
     output[temp_cnt] = line_output
     #creating a temp counter (doesn't follow zero based indexing)
@@ -388,7 +436,6 @@ for line in code_as_lst:
 # Missing HLT instruction
 binary_instruction_values = output.values()
 if "1101000000000000" not in binary_instruction_values:
-    errors.append("ERROR : Missing hlt instruction")
     ERRORS_DIC[line_counter+1] = "ERROR : Missing hlt instruction"
 else:
     index = 0
@@ -398,7 +445,6 @@ else:
             break
     if index != line_counter:
         ERRORS_DIC[index] = "ERROR  hlt not last instruction"
-        errors.append("ERROR : hlt not last instruction")
 
 
 #code to merge the binary code, ie. values of output dictionary

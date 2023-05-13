@@ -1,9 +1,2 @@
-var X
-var Y
-mov R1 $10
-mov R2 $100
-mul R3 R2 R1
-ls R1 $93
-st R3 X
-masti: st R5 Y
-hlt
+hlt 
+var x
