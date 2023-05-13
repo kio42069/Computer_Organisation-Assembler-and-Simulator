@@ -80,7 +80,7 @@ def type_C(line_output, line_lst, registers):
     if (register1 not in registers) or (register2 not in registers):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         return "ERROR"
-    elif "FLAGS" in (register1, register2):
+    elif "FLAGS" in (register1, register2) and line_output != "00011":
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
         return "ERROR"
 
@@ -464,12 +464,13 @@ else:
 to_write = ""
 for i in output:
     to_write += str(i) + " : " + str(output[i]) + "\n"
-
 with open("output_1.txt", 'w') as f:
-    f.write("")
-if "ERROR" not in to_write:
-    with open("output_1.txt", 'w') as f:
-        f.write(to_write)
+    f.write(to_write)
+# with open("output_1.txt", 'w') as f:
+#     f.write("")
+# if "ERROR" not in to_write:
+#     with open("output_1.txt", 'w') as f:
+#         f.write(to_write)
 
 to_write = ""
 for i in ERRORS_DIC:
