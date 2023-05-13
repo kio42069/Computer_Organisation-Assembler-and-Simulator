@@ -299,7 +299,7 @@ for test_case in range(1,35):
                 except:
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ADD"
 
-            case "sub":                                                                             
+            case "sub":
                 line_output = "00001"
                 try:
                     line_output = type_A(line_output, temp_lst, registers)
@@ -311,7 +311,7 @@ for test_case in range(1,35):
                 try:
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MUL"            
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MUL"
 
             case "xor":
                 line_output = "01010"
@@ -344,7 +344,7 @@ for test_case in range(1,35):
                     except:
                         ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MOV"
 
-                else:       #type C (there are two mov instructions)                                                  
+                else:       #type C (there are two mov instructions)
                     line_output = "00011"
                     try:
                         line_output = type_C(line_output, temp_lst, registers)
