@@ -1,12 +1,1 @@
-3 : ERROR : Undefined Variable
-7 : ERROR : Undefined Variable
 8 : ERROR : Undefined Label
-18 : ERROR : Undefined Label
-19 : ERROR : Undefined Label
-20 : ERROR : Undefined Label
-21 : ERROR : Undefined Label
-1 : ERROR : Illegal Immediate Value
-2 : INVALID COMMAND
-6 : ERROR : Undefined Label
-9 : ERROR : Undefined Variable
-4 : ERROR : Missing hlt instruction

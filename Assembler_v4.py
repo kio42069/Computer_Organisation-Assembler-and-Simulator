@@ -55,11 +55,11 @@ def type_B(line_output, line_lst, registers):
         return "ERROR"
 
     imm = int(line_lst[2][1:])
-
     if (imm < 0) or (imm > 127):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal Immediate Value"
         return "ERROR"
 
+    # imm = int(imm)
     imm = decimal_to_binary(imm)
 
     length_of_imm_to_be_added = 7 - len(imm)       # handle overflow of 7 bits just before here pls
@@ -300,6 +300,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ADD"
 
             case "sub":
@@ -307,6 +308,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND SUB"
 
             case "mul":
@@ -314,6 +316,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MUL"
 
             case "xor":
@@ -321,6 +324,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND XOR"
 
             case "or":
@@ -328,6 +332,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND OR"
 
             case "and":
@@ -335,6 +340,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND AND"
 
 
@@ -345,6 +351,7 @@ for test_case in range(1,31):
                     try:
                         line_output = type_B(line_output, temp_lst, registers)
                     except:
+                        line_output = ""
                         ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MOV"
 
                 else:       #type C (there are two mov instructions)
@@ -352,6 +359,7 @@ for test_case in range(1,31):
                     try:
                         line_output = type_C(line_output, temp_lst, registers)
                     except:
+                        line_output = ""
                         ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MOV"
 
             case "rs":
@@ -359,6 +367,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_B(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND RS"
 
             case "ls":
@@ -366,6 +375,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_B(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND LS"
 
 
@@ -375,6 +385,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_C(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND DIV"
 
             case "not":
@@ -382,6 +393,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_C(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND NOT"
 
             case "cmp":
@@ -389,6 +401,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_C(line_output, temp_lst, registers)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND CMP"
 
 
@@ -398,6 +411,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_D(line_output, temp_lst)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND LD"
 
 
@@ -406,6 +420,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_D(line_output, temp_lst)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ST"
 
 
@@ -415,6 +430,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_E(line_output, temp_lst)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JMP"
 
             case "jlt":
@@ -422,6 +438,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_E(line_output, temp_lst)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JLT"
 
             case "jgt":
@@ -429,6 +446,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_E(line_output, temp_lst)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JGT"
 
             case "je":
@@ -436,6 +454,7 @@ for test_case in range(1,31):
                 try:
                     line_output = type_E(line_output, temp_lst)
                 except:
+                    line_output = ""
                     ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JE"
 
 
@@ -483,3 +502,4 @@ for test_case in range(1,31):
     with open(f"error_dict_output\\error_dict_output{test_case}.txt", 'w') as f:
         f.write(to_write)
     code_as_lst = []
+    ERRORS_DIC = {}

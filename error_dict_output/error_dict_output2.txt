@@ -1,4 +1,3 @@
-3 : INVALID USE OF COMMAND ADD
 7 : ERROR : Undefined Variable
 8 : ERROR : Undefined Variable
 18 : ERROR : Undefined Label
