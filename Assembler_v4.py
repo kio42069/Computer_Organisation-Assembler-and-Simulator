@@ -54,12 +54,12 @@ def type_B(line_output, line_lst, registers):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
         return "ERROR"
 
-    imm = int(line_lst[2][1:])
-    if (imm < 0) or (imm > 127):
+    imm = float(line_lst[2][1:])
+    if (imm < 0) or (imm > 127) or float(int(imm)) != imm:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal Immediate Value"
         return "ERROR"
 
-    # imm = int(imm)
+    imm = int(imm)
     imm = decimal_to_binary(imm)
 
     length_of_imm_to_be_added = 7 - len(imm)       # handle overflow of 7 bits just before here pls

@@ -1,1 +1,1 @@
-2 : INVALID USE OF COMMAND MOV
+2 : ERROR : Illegal Immediate Value
