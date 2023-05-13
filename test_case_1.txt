@@ -1,4 +1,2 @@
-var x
-mv R1 $4
-st R1 x
+cmp R1 FLAGS
 hlt

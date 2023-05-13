@@ -1,2 +1,0 @@
-2 : INVALID COMMAND
-4 : ERROR  hlt not last instruction

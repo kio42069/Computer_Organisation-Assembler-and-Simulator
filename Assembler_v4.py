@@ -33,6 +33,9 @@ def type_A(line_output, line_lst, registers):
     if (register1 not in registers) or (register2 not in registers) or (register3 not in registers):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         return "ERROR"
+    elif "FLAGS" in (register1, register2, register3):
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
+        return "ERROR"
 
     line_output += f"00{registers[register1]}{registers[register2]}{registers[register3]}"
     return line_output
@@ -46,6 +49,9 @@ def type_B(line_output, line_lst, registers):
 
     if register not in registers:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
+        return "ERROR"
+    elif register == "FLAGS":
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
         return "ERROR"
 
     imm = int(line_lst[2][1:])
@@ -74,7 +80,10 @@ def type_C(line_output, line_lst, registers):
     if (register1 not in registers) or (register2 not in registers):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         return "ERROR"
-    
+    elif "FLAGS" in (register1, register2):
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
+        return "ERROR"
+
     line_output += f"00000{registers[register1]}{registers[register2]}"
     return line_output
 
@@ -87,7 +96,10 @@ def type_D(line_output, line_lst):
     if register not in registers:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
         return "ERROR"
-        
+    elif register == "FLAGS":
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
+        return "ERROR"
+
     variable = line_lst[2]
 
     if variable not in variables:
