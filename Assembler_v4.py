@@ -425,7 +425,7 @@ for line in code_as_lst:
 
         #default case
         case _:
-            ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ADD"
+            ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID COMMAND"
 
     output[temp_cnt] = line_output
     #creating a temp counter (doesn't follow zero based indexing)
@@ -444,7 +444,7 @@ else:
         index += 1
         if i == 'hlt' or i == 'hlt\n':
             break
-    if index != line_counter:
+    if index != len(code_as_lst):
         ERRORS_DIC[index] = "ERROR  hlt not last instruction"
 
 
