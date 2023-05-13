@@ -1,0 +1,4 @@
+2 : ERROR : Variable Declaration must be at the beginning
+3 : ERROR : Illegal Immediate Value
+7 : ERROR : Illegal Immediate Value
+20 : ERROR : Illegal Immediate Value
