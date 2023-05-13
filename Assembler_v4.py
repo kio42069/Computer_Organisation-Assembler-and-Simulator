@@ -31,10 +31,10 @@ def type_A(line_output, line_lst, registers):
     register3 = line_lst[3]
 
     if (register1 not in registers) or (register2 not in registers) or (register3 not in registers):
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
         return "ERROR"
     elif "FLAGS" in (register1, register2, register3):
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal use of FLAGS register"
         return "ERROR"
 
     line_output += f"00{registers[register1]}{registers[register2]}{registers[register3]}"
@@ -48,10 +48,10 @@ def type_B(line_output, line_lst, registers):
     register = line_lst[1]
 
     if register not in registers:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
         return "ERROR"
     elif register == "FLAGS":
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
         return "ERROR"
 
     imm = float(line_lst[2][1:])
@@ -78,10 +78,10 @@ def type_C(line_output, line_lst, registers):
     register2 = line_lst[2]
 
     if (register1 not in registers) or (register2 not in registers):
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined Register"
         return "ERROR"
     elif "FLAGS" in (register1, register2) and line_output != "00011":
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
         return "ERROR"
 
     line_output += f"00000{registers[register1]}{registers[register2]}"
@@ -94,17 +94,17 @@ def type_D(line_output, line_lst):
     register = line_lst[1]
 
     if register not in registers:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
         return "ERROR"
     elif register == "FLAGS":
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Invalid use of FLAGS register"
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
         return "ERROR"
 
     variable = line_lst[2]
 
     if variable not in variables:
         if variable not in labels:
-            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Undefined Variable"
+            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined variable"
             return "ERROR"
         
         else:
@@ -123,7 +123,7 @@ def type_E(line_output, line_lst):
     label = line_lst[1]
     if label not in labels:
         if label not in variables:
-            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Undefined Label"
+            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined label"
             return "ERROR"
         
         else:
@@ -155,7 +155,7 @@ for test_case in range(1,31):
 
     while(index < len(code_as_lst)):
         if code_as_lst[index][:3] == 'var':
-            ERRORS_DIC[index+1] = "ERROR : Variable Declaration must be at the beginning"
+            ERRORS_DIC[index+1] = "ERROR : Variables not declared at the beginning"
         index += 1
     # pass 1
     """
@@ -257,7 +257,7 @@ for test_case in range(1,31):
 
                 else:
                     alt_counter += 1
-                    ERRORS_DIC[line_counter+alt_counter] = "Error: Operation does not exist"
+                    ERRORS_DIC[line_counter+alt_counter] = "ERROR : Typo in instruction name"
 
 
     # pass 2
@@ -301,7 +301,7 @@ for test_case in range(1,31):
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ADD"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "sub":
                 line_output = "00001"
@@ -309,7 +309,7 @@ for test_case in range(1,31):
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND SUB"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "mul":
                 line_output = "00110"
@@ -317,7 +317,7 @@ for test_case in range(1,31):
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MUL"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "xor":
                 line_output = "01010"
@@ -325,7 +325,7 @@ for test_case in range(1,31):
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND XOR"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "or":
                 line_output = "01011"
@@ -333,7 +333,7 @@ for test_case in range(1,31):
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND OR"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "and":
                 line_output = "01100"
@@ -341,7 +341,7 @@ for test_case in range(1,31):
                     line_output = type_A(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND AND"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
 
             #type B instructions
@@ -352,7 +352,7 @@ for test_case in range(1,31):
                         line_output = type_B(line_output, temp_lst, registers)
                     except:
                         line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MOV"
+                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
                 else:       #type C (there are two mov instructions)
                     line_output = "00011"
@@ -360,7 +360,7 @@ for test_case in range(1,31):
                         line_output = type_C(line_output, temp_lst, registers)
                     except:
                         line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND MOV"
+                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "rs":
                 line_output = "01000"
@@ -368,7 +368,7 @@ for test_case in range(1,31):
                     line_output = type_B(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND RS"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "ls":
                 line_output = "01001"
@@ -376,7 +376,7 @@ for test_case in range(1,31):
                     line_output = type_B(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND LS"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
 
             #type C instructions
@@ -386,7 +386,7 @@ for test_case in range(1,31):
                     line_output = type_C(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND DIV"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "not":
                 line_output = "01101"
@@ -394,7 +394,7 @@ for test_case in range(1,31):
                     line_output = type_C(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND NOT"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "cmp":
                 line_output = "01110"
@@ -402,7 +402,7 @@ for test_case in range(1,31):
                     line_output = type_C(line_output, temp_lst, registers)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND CMP"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
 
             #type D instructions
@@ -412,7 +412,7 @@ for test_case in range(1,31):
                     line_output = type_D(line_output, temp_lst)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND LD"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
 
             case "st":
@@ -421,7 +421,7 @@ for test_case in range(1,31):
                     line_output = type_D(line_output, temp_lst)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND ST"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
 
             #type E instructions
@@ -431,7 +431,7 @@ for test_case in range(1,31):
                     line_output = type_E(line_output, temp_lst)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JMP"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "jlt":
                 line_output = "11100"
@@ -439,7 +439,7 @@ for test_case in range(1,31):
                     line_output = type_E(line_output, temp_lst)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JLT"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "jgt":
                 line_output = "11101"
@@ -447,7 +447,7 @@ for test_case in range(1,31):
                     line_output = type_E(line_output, temp_lst)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JGT"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
             case "je":
                 line_output = "11111"
@@ -455,7 +455,7 @@ for test_case in range(1,31):
                     line_output = type_E(line_output, temp_lst)
                 except:
                     line_output = ""
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID USE OF COMMAND JE"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
 
 
             #default case
