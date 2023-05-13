@@ -504,5 +504,8 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
 
         with open(f"error_dict_output\\error_dict_output{test_case}.txt", 'w') as f:
             f.write(to_write)
+        if len(ERRORS_DIC) > 0:
+            error = list(ERRORS_DIC.keys())[0]
+            print(f"File : {folder_name}Test{test_case} "+ERRORS_DIC[error]+" on line "+ str(error))
         code_as_lst = []
         ERRORS_DIC = {}
