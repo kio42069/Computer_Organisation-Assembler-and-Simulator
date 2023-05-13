@@ -1,1 +1,1 @@
-3 : INVALID USE OF COMMAND ADD
+3 : ERROR : General Syntax Error

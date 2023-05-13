@@ -1,1 +1,1 @@
-8 : ERROR : Undefined Label
+8 : ERROR : Use of undefined label

@@ -1,6 +1,6 @@
-7 : ERROR : Undefined Variable
-8 : ERROR : Undefined Variable
-18 : ERROR : Undefined Label
-19 : ERROR : Undefined Label
-20 : ERROR : Undefined Label
-21 : ERROR : Undefined Label
+7 : ERROR : Use of undefined variable
+8 : ERROR : Use of undefined variable
+18 : ERROR : Use of undefined label
+19 : ERROR : Use of undefined label
+20 : ERROR : Use of undefined label
+21 : ERROR : Use of undefined label

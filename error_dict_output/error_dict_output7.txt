@@ -1,1 +1,1 @@
-6 : ERROR : Undefined Label
+6 : ERROR : Use of undefined label

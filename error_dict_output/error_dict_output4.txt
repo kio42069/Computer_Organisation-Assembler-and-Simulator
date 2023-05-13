@@ -1,2 +1,2 @@
-2 : ERROR : Variable Declaration must be at the beginning
+2 : ERROR : Variables not declared at the beginning
 1 : ERROR  hlt not last instruction

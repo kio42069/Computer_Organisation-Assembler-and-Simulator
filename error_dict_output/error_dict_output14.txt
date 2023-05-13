@@ -1,1 +1,1 @@
-1 : ERROR : Invalid use of FLAGS register
+1 : ERROR : Illegal use of FLAGS register

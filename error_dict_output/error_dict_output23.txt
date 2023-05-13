@@ -1,6 +1,0 @@
-2 : ERROR : Variable Declaration must be at the beginning
-3 : ERROR : Variable Declaration must be at the beginning
-4 : ERROR : Variable Declaration must be at the beginning
-5 : INVALID USE OF COMMAND ADD
-6 : ERROR : Undefined Variable
-1 : ERROR  hlt not last instruction

@@ -1,1 +1,1 @@
-1 : ERROR : Invalid Register
+1 : ERROR : Use of undefined register
