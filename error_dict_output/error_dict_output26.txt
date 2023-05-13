@@ -1,0 +1,14 @@
+3 : INVALID USE OF COMMAND ADD
+7 : ERROR : Illegal Immediate Value
+8 : ERROR : Misuse of variable as label
+18 : ERROR : Undefined Label
+19 : ERROR : Undefined Label
+20 : ERROR : Undefined Label
+21 : ERROR : Undefined Label
+1 : ERROR  hlt not last instruction
+2 : ERROR : Variable Declaration must be at the beginning
+6 : ERROR : Undefined Variable
+9 : ERROR : Undefined Variable
+4 : ERROR : Variable Declaration must be at the beginning
+5 : INVALID USE OF COMMAND ADD
+12 : INVALID COMMAND

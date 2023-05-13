@@ -1,9 +1,0 @@
-2 : ERROR : Variable Declaration must be at the beginning
-3 : ERROR : Illegal Immediate Value
-7 : ERROR : Illegal Immediate Value
-20 : ERROR : Illegal Immediate Value
-13 : ERROR : Illegal Immediate Value
-16 : ERROR : Illegal Immediate Value
-14 : ERROR : Illegal Immediate Value
-15 : ERROR : Illegal Immediate Value
-17 : ERROR : Illegal Immediate Value

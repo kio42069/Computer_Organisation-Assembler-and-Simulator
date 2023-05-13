@@ -1,0 +1,9 @@
+3 : ERROR : Undefined Variable
+7 : ERROR : Undefined Variable
+8 : ERROR : Undefined Variable
+18 : ERROR : Undefined Label
+19 : ERROR : Undefined Label
+20 : ERROR : Undefined Label
+21 : ERROR : Undefined Label
+1 : ERROR  hlt not last instruction
+2 : ERROR : Variable Declaration must be at the beginning

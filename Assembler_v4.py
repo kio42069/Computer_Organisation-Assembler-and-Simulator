@@ -133,9 +133,9 @@ def type_E(line_output, line_lst):
     line_output += labels[line_lst[1]]
     return line_output
 
-for test_case in range(1,36):
+for test_case in range(1,31):
 
-    with open(f"hardBinTests/test{test_case}.txt", 'r') as f:
+    with open(f"errorGenTests/test{test_case}.txt", 'r') as f:
         code_as_lst = f.readlines()
 
     #removing empty lines from code_as_lst
@@ -468,7 +468,7 @@ for test_case in range(1,36):
     to_write = ""
     for i in output:
         to_write += str(i) + " : " + str(output[i]) + "\n"
-    with open(f"hardBinOutputs\\hardBinOutput{test_case}.txt", 'w') as f:
+    with open(f"errorGenOutputs\\errorGenOutput{test_case}.txt", 'w') as f:
         f.write(to_write)
     # with open("output_1.txt", 'w') as f:
     #     f.write("")
@@ -480,6 +480,6 @@ for test_case in range(1,36):
     for i in ERRORS_DIC:
         to_write += str(i) + " : " + ERRORS_DIC[i] + "\n"
 
-    with open(f"error_output\\error_dict{test_case}.txt", 'w') as f:
+    with open(f"error_dict_output\\error_dict_output{test_case}.txt", 'w') as f:
         f.write(to_write)
     code_as_lst = []
