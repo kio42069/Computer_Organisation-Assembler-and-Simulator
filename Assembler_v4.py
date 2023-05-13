@@ -149,7 +149,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                 else:
                     i += 1
         if len(code_as_lst) > 128:
-            ERRORS_DIC[0] = "MAXIMUM MEMORY EXCEEDED (code longer than 128 lines)"
+            ERRORS_DIC[0] = "ERROR: Memory limit exceeded"
         #checking all variable declarations are at beginning of program
         index = 0
 
