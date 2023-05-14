@@ -334,7 +334,6 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                         alt_counter += 1
                         ERRORS_DIC[line_counter+alt_counter].append("ERROR : Typo in instruction name")
 
-
         # pass 2
         """
         - replace labels and vars with their addresses
