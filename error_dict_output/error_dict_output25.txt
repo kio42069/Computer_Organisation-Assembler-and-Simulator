@@ -1,0 +1,2 @@
+12 : INVALID COMMAND
+7 : ERROR : Illegal Immediate Value

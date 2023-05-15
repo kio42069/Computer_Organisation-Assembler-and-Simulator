@@ -1,0 +1,5 @@
+2 : INVALID COMMAND
+3 : ERROR : General Syntax Error
+5 : ERROR : General Syntax Error
+6 : ERROR : General Syntax Error
+7 : ERROR : Missing hlt instruction

@@ -135,7 +135,7 @@ def type_E(line_output, line_lst):
 
 
 for folder_name in ["simpleBin", "hardBin", "errorGen"]:
-    for test_case in range(1,len(os.listdir())):
+    for test_case in range(1,len(os.listdir(f"{folder_name}Tests"))+1):
 
         with open(f"{folder_name}Tests/test{test_case}.txt", 'r') as f:
             code_as_lst = f.readlines()
