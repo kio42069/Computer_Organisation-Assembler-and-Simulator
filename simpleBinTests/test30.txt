@@ -1,4 +1,6 @@
-var x
-mov R1 $5
-st R1 x
+var X
+mov R1 $10
+mov R2 $100
+mul R3 R2 R1
+st R3 X
 hlt
