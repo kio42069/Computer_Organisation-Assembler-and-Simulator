@@ -26,57 +26,74 @@ def decimal_to_binary(n):
 #3 register type
 def type_A(line_output, line_lst, registers):
     global temp_cnt, alt_counter
-
+    flag = 1
     if len(line_lst) != 4:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
-        return "ERROR"
-
-
-    register1 = line_lst[1]
-    register2 = line_lst[2]
-    register3 = line_lst[3]
+        line_output = "ERROR"
+        flag = 0
+    try:
+        register1 = line_lst[1]
+    except:
+        register1 = ""
+    try:
+        register2 = line_lst[2]
+    except:
+        register2 = ""
+    try:
+        register3 = line_lst[3]
+    except:
+        register3 = ""
 
     if (register1 not in registers) or (register2 not in registers) or (register3 not in registers):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
     elif "FLAGS" in (register1, register2, register3):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal use of FLAGS register"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
 
-    line_output += f"00{registers[register1]}{registers[register2]}{registers[register3]}"
+    if flag:
+        line_output += f"00{registers[register1]}{registers[register2]}{registers[register3]}"
     return line_output
 
 
 #register and immediate type
 def type_B(line_output, line_lst, registers):
     global temp_cnt, alt_counter
-
+    flag = 1
     if len(line_lst) != 3:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
-        return "ERRORS"
-
-    register = line_lst[1]
-
+        line_output = "ERROR"
+        flag = 0
+    try:
+        register = line_lst[1]
+    except:
+        register = ""
     if register not in registers:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
     elif register == "FLAGS":
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
 
     imm = float(line_lst[2][1:])
     if (imm < 0) or (imm > 127) or float(int(imm)) != imm:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal Immediate Value"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
 
-    imm = int(imm)
-    imm = decimal_to_binary(imm)
+    if flag:
+        imm = int(imm)
+        imm = decimal_to_binary(imm)
 
-    length_of_imm_to_be_added = 7 - len(imm)       # handle overflow of 7 bits just before here pls
-    for i in range(length_of_imm_to_be_added):
-        imm = '0' + imm
+        length_of_imm_to_be_added = 7 - len(imm)       # handle overflow of 7 bits just before here pls
+        for i in range(length_of_imm_to_be_added):
+            imm = '0' + imm
 
-    line_output += f"0{registers[register]}{imm}"
+        line_output += f"0{registers[register]}{imm}"
 
     return line_output
 
@@ -84,78 +101,106 @@ def type_B(line_output, line_lst, registers):
 #2 register type
 def type_C(line_output, line_lst, registers):
     global temp_cnt, alt_counter
-
+    flag = 1
     if len(line_lst) != 3:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
-        return "ERRORS"
+        line_output = "ERRORS"
+        flag = 0
 
-    register1 = line_lst[1]
-    register2 = line_lst[2]
+    try:
+        register1 = line_lst[1]
+    except:
+        register1 = ""
+    try:
+        register2 = line_lst[2]
+    except:
+        register2 = ""
 
     if (register1 not in registers) or (register2 not in registers):
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined Register"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
     elif "FLAGS" in (register1, register2) and line_output != "00011":
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
 
-    line_output += f"00000{registers[register1]}{registers[register2]}"
+    if flag:
+        line_output += f"00000{registers[register1]}{registers[register2]}"
     return line_output
 
 
 #register and memory address type (variable)
 def type_D(line_output, line_lst):
     global temp_cnt, alt_counter
+    flag = 1
 
     if len(line_lst) != 3:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
-        return "ERRORS"
+        line_output = "ERRORS"
+        flag = 0
 
-    register = line_lst[1]
+    try:
+        register = line_lst[1]
+    except:
+        register = ""
 
     if register not in registers:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
     elif register == "FLAGS":
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
-        return "ERROR"
+        line_output = "ERROR"
+        flag = 0
 
-    variable = line_lst[2]
+    try:
+        variable = line_lst[2]
+    except:
+        variable = ""
 
     if variable not in variables:
         if variable not in labels:
             ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined variable"
-            return "ERROR"
+            line_output = "ERROR"
+            flag = 0
         
         else:
             ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Misuse of label as variable"
-            return "ERROR"
-        
-    line_output += f"0{registers[register]}{variables[variable]}"
+            line_output = "ERROR"
+            flag = 0
+    if flag:
+        line_output += f"0{registers[register]}{variables[variable]}"
     return line_output
 
 
 #memory address type (jump to a label)
 def type_E(line_output, line_lst):
     global temp_cnt, alt_counter
+    flag = 1
     line_output += "0000"
 
     if len(line_lst) != 2:
         ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
-        return "ERRORS"
+        line_output = "ERRORS"
+        flag = 0
 
-
-    label = line_lst[1]
+    try:
+        label = line_lst[1]
+    except:
+        label = ""
     if label not in labels:
         if label not in variables:
             ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined label"
-            return "ERROR"
+            line_output = "ERROR"
+            flag = 0
         
         else:
             ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Misuse of variable as label"
-            return "ERROR"
-        
-    line_output += labels[line_lst[1]]
+            line_output = "ERROR"
+            flag = 0
+    if flag:
+        line_output += labels[line_lst[1]]
     return line_output
 
 
