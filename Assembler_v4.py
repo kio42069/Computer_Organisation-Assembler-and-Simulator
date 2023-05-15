@@ -412,7 +412,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
 
                 #default case
                 case _:
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "INVALID COMMAND"
+                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR :  Syntax Error"
 
             output[temp_cnt] = line_output
             #creating a temp counter (doesn't follow zero based indexing)
