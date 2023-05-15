@@ -463,7 +463,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
 
                 output[temp_cnt] = line_output
             except:
-                pass # Unclear how to handle this
+                pass
             #creating a temp counter (doesn't follow zero based indexing)
             if (line_lst[0] != "var"):    
                 temp_cnt += 1
