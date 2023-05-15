@@ -28,7 +28,7 @@ def type_A(line_output, line_lst, registers):
     global temp_cnt, alt_counter
     flag = 1
     if len(line_lst) != 4:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Incorrect number of arguments")
         line_output = "ERROR"
         flag = 0
     try:
@@ -45,11 +45,11 @@ def type_A(line_output, line_lst, registers):
         register3 = ""
 
     if (register1 not in registers) or (register2 not in registers) or (register3 not in registers):
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined register")
         line_output = "ERROR"
         flag = 0
     elif "FLAGS" in (register1, register2, register3):
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal use of FLAGS register"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal use of FLAGS register")
         line_output = "ERROR"
         flag = 0
 
@@ -63,7 +63,7 @@ def type_B(line_output, line_lst, registers):
     global temp_cnt, alt_counter
     flag = 1
     if len(line_lst) != 3:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Incorrect number of arguments")
         line_output = "ERROR"
         flag = 0
     try:
@@ -71,17 +71,17 @@ def type_B(line_output, line_lst, registers):
     except:
         register = ""
     if register not in registers:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined register")
         line_output = "ERROR"
         flag = 0
     elif register == "FLAGS":
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : ERROR : Illegal use of FLAGS register")
         line_output = "ERROR"
         flag = 0
 
     imm = float(line_lst[2][1:])
     if (imm < 0) or (imm > 127) or float(int(imm)) != imm:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Illegal Immediate Value"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
         line_output = "ERROR"
         flag = 0
 
@@ -103,7 +103,7 @@ def type_C(line_output, line_lst, registers):
     global temp_cnt, alt_counter
     flag = 1
     if len(line_lst) != 3:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Incorrect number of arguments")
         line_output = "ERRORS"
         flag = 0
 
@@ -117,11 +117,11 @@ def type_C(line_output, line_lst, registers):
         register2 = ""
 
     if (register1 not in registers) or (register2 not in registers):
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined Register"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined Register")
         line_output = "ERROR"
         flag = 0
     elif "FLAGS" in (register1, register2) and line_output != "00011":
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : ERROR : Illegal use of FLAGS register")
         line_output = "ERROR"
         flag = 0
 
@@ -136,7 +136,7 @@ def type_D(line_output, line_lst):
     flag = 1
 
     if len(line_lst) != 3:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Incorrect number of arguments")
         line_output = "ERRORS"
         flag = 0
 
@@ -146,11 +146,11 @@ def type_D(line_output, line_lst):
         register = ""
 
     if register not in registers:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined register"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined register")
         line_output = "ERROR"
         flag = 0
     elif register == "FLAGS":
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : ERROR : Illegal use of FLAGS register"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : ERROR : Illegal use of FLAGS register")
         line_output = "ERROR"
         flag = 0
 
@@ -161,12 +161,12 @@ def type_D(line_output, line_lst):
 
     if variable not in variables:
         if variable not in labels:
-            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined variable"
+            ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined variable")
             line_output = "ERROR"
             flag = 0
         
         else:
-            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Misuse of label as variable"
+            ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Misuse of label as variable")
             line_output = "ERROR"
             flag = 0
     if flag:
@@ -181,7 +181,7 @@ def type_E(line_output, line_lst):
     line_output += "0000"
 
     if len(line_lst) != 2:
-        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Incorrect number of arguments")
         line_output = "ERRORS"
         flag = 0
 
@@ -191,12 +191,12 @@ def type_E(line_output, line_lst):
         label = ""
     if label not in labels:
         if label not in variables:
-            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Use of undefined label"
+            ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined label")
             line_output = "ERROR"
             flag = 0
         
         else:
-            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Misuse of variable as label"
+            ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Misuse of variable as label")
             line_output = "ERROR"
             flag = 0
     if flag:
@@ -219,8 +219,10 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                     code_as_lst.pop(i)
                 else:
                     i += 1
+        for i in range(len(code_as_lst)+2):
+            ERRORS_DIC[i] = []
         if len(code_as_lst) > 128:
-            ERRORS_DIC[0] = "ERROR: Memory limit exceeded"
+            ERRORS_DIC[0].append("ERROR: Memory limit exceeded")
         #checking all variable declarations are at beginning of program
         index = 0
 
@@ -229,7 +231,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
 
         while(index < len(code_as_lst)):
             if code_as_lst[index][:3] == 'var':
-                ERRORS_DIC[index+1] = "ERROR : Variables not declared at the beginning"
+                ERRORS_DIC[index+1].append("ERROR : Variables not declared at the beginning")
             index += 1
         # pass 1
         """
@@ -331,7 +333,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
 
                     else:
                         alt_counter += 1
-                        ERRORS_DIC[line_counter+alt_counter] = "ERROR : Typo in instruction name"
+                        ERRORS_DIC[line_counter+alt_counter].append("ERROR : Typo in instruction name")
 
 
         # pass 2
@@ -457,7 +459,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
 
                 #default case
                 case _:
-                    ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR :  Syntax Error"
+                    ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR :  Syntax Error")
 
             output[temp_cnt] = line_output
             #creating a temp counter (doesn't follow zero based indexing)
@@ -468,7 +470,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
         # Missing HLT instruction
         binary_instruction_values = output.values()
         if "1101000000000000" not in binary_instruction_values:
-            ERRORS_DIC[line_counter+1] = "ERROR : Missing hlt instruction"
+            ERRORS_DIC[line_counter+1].append("ERROR : Missing hlt instruction")
         else:
             index = 0
             for i in code_as_lst:
@@ -477,7 +479,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                 if i == 'hlt' or i == 'hlt\n':
                     break
             if index != len(code_as_lst):
-                ERRORS_DIC[index] = "ERROR  hlt not last instruction"
+                ERRORS_DIC[index].append("ERROR  hlt not last instruction")
 
 
         #code to merge the binary code, ie. values of output dictionary
@@ -489,15 +491,15 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
         if "ERROR" not in to_write:
             with open(f"{folder_name}Outputs\{folder_name}Output{test_case}.txt", 'w') as f:
                 f.write(to_write)
-
-        to_write = ""
-        for i in ERRORS_DIC:
-            to_write += str(i) + " : " + ERRORS_DIC[i] + "\n"
-
-        with open(f"error_dict_output\\error_dict_output{test_case}.txt", 'w') as f:
-            f.write(to_write)
-        if len(ERRORS_DIC) > 0:
-            error = list(ERRORS_DIC.keys())[0]
-            print(f"File : {folder_name}Test{test_case} "+ERRORS_DIC[error]+" on line "+ str(error))
+        else:
+            to_write = ""
+            for i in ERRORS_DIC:
+                for j in ERRORS_DIC[i]:
+                    to_write += str(i) + " : " + j + "\n"
+            with open(f"{folder_name}Outputs\{folder_name}Output{test_case}.txt", 'w') as f:
+                f.write(to_write)
+        # if len(ERRORS_DIC) > 0:
+        #     error = list(ERRORS_DIC.keys())[0][0]
+        #     print(f"File : {folder_name}Test{test_case} "+ERRORS_DIC[error]+" on line "+ str(error))
         code_as_lst = []
         ERRORS_DIC = {}

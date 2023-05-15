@@ -1,0 +1,3 @@
+2 : ERROR : Use of undefined Register
+4 : ERROR : Incorrect number of arguments
+6 : ERROR : Use of undefined label
