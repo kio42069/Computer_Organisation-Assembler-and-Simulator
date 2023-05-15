@@ -1,1 +1,1 @@
-1 : ERROR  hlt not last instruction
+1 : ERROR : hlt not last instruction

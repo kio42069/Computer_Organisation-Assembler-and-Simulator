@@ -1,2 +1,2 @@
-2 : ERROR  hlt not last instruction
+2 : ERROR : hlt not last instruction
 3 : ERROR : Variables not declared at the beginning

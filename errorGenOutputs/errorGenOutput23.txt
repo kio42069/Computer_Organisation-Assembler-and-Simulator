@@ -1,4 +1,4 @@
-1 : ERROR  hlt not last instruction
+1 : ERROR : hlt not last instruction
 2 : ERROR : Variables not declared at the beginning
 3 : ERROR : Variables not declared at the beginning
 4 : ERROR : Variables not declared at the beginning

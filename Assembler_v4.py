@@ -232,6 +232,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
             if code_as_lst[index][:3] == 'var':
                 ERRORS_DIC[index+1].append("ERROR : Variables not declared at the beginning")
             index += 1
+
         # pass 1
         """
         - count lines in the code
@@ -360,106 +361,109 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                 temp_lst = line_lst[1:]
             
             #match case to manipulate changes in labels and variables, removed counter as temp counter would be sufficient
-            match temp_lst[0]:
+            try:
+                match temp_lst[0]:
 
-                case "var":
-                    alt_counter += 1
+                    case "var":
+                        alt_counter += 1
 
-                case "hlt":
-                    line_output = "1101000000000000"
+                    case "hlt":
+                        line_output = "1101000000000000"
 
-                #type A instructions
-                case "add":
-                    line_output = "00000"
-                    line_output = type_A(line_output, temp_lst, registers)
+                    #type A instructions
+                    case "add":
+                        line_output = "00000"
+                        line_output = type_A(line_output, temp_lst, registers)
 
-                case "sub":
-                    line_output = "00001"
-                    line_output = type_A(line_output, temp_lst, registers)
+                    case "sub":
+                        line_output = "00001"
+                        line_output = type_A(line_output, temp_lst, registers)
 
-                case "mul":
-                    line_output = "00110"
-                    line_output = type_A(line_output, temp_lst, registers)
+                    case "mul":
+                        line_output = "00110"
+                        line_output = type_A(line_output, temp_lst, registers)
 
-                case "xor":
-                    line_output = "01010"
-                    line_output = type_A(line_output, temp_lst, registers)
+                    case "xor":
+                        line_output = "01010"
+                        line_output = type_A(line_output, temp_lst, registers)
 
-                case "or":
-                    line_output = "01011"
-                    line_output = type_A(line_output, temp_lst, registers)
+                    case "or":
+                        line_output = "01011"
+                        line_output = type_A(line_output, temp_lst, registers)
 
-                case "and":
-                    line_output = "01100"
-                    line_output = type_A(line_output, temp_lst, registers)
+                    case "and":
+                        line_output = "01100"
+                        line_output = type_A(line_output, temp_lst, registers)
 
 
-                #type B instructions
-                case "mov":
-                    if (temp_lst[2][0] == "$"):
-                        line_output = "00010"
+                    #type B instructions
+                    case "mov":
+                        if (temp_lst[2][0] == "$"):
+                            line_output = "00010"
+                            line_output = type_B(line_output, temp_lst, registers)
+
+                        else:       #type C (there are two mov instructions)
+                            line_output = "00011"
+                            line_output = type_C(line_output, temp_lst, registers)
+
+                    case "rs":
+                        line_output = "01000"
                         line_output = type_B(line_output, temp_lst, registers)
 
-                    else:       #type C (there are two mov instructions)
-                        line_output = "00011"
+                    case "ls":
+                        line_output = "01001"
+                        line_output = type_B(line_output, temp_lst, registers)
+
+
+                    #type C instructions
+                    case "div":
+                        line_output = "00111"
                         line_output = type_C(line_output, temp_lst, registers)
 
-                case "rs":
-                    line_output = "01000"
-                    line_output = type_B(line_output, temp_lst, registers)
+                    case "not":
+                        line_output = "01101"
+                        line_output = type_C(line_output, temp_lst, registers)
 
-                case "ls":
-                    line_output = "01001"
-                    line_output = type_B(line_output, temp_lst, registers)
-
-
-                #type C instructions
-                case "div":
-                    line_output = "00111"
-                    line_output = type_C(line_output, temp_lst, registers)
-
-                case "not":
-                    line_output = "01101"
-                    line_output = type_C(line_output, temp_lst, registers)
-
-                case "cmp":
-                    line_output = "01110"
-                    line_output = type_C(line_output, temp_lst, registers)
+                    case "cmp":
+                        line_output = "01110"
+                        line_output = type_C(line_output, temp_lst, registers)
 
 
-                #type D instructions
-                case "ld":
-                    line_output = "00100"
-                    line_output = type_D(line_output, temp_lst)
+                    #type D instructions
+                    case "ld":
+                        line_output = "00100"
+                        line_output = type_D(line_output, temp_lst)
 
-                case "st":
-                    line_output = "00101"
-                    line_output = type_D(line_output, temp_lst)
-
-
-                #type E instructions
-                case "jmp":
-                    line_output = "01111"
-                    line_output = type_E(line_output, temp_lst)
-
-                case "jlt":
-                    line_output = "11100"
-                    line_output = type_E(line_output, temp_lst)
-
-                case "jgt":
-                    line_output = "11101"
-                    line_output = type_E(line_output, temp_lst)
-
-                case "je":
-                    line_output = "11111"
-                    line_output = type_E(line_output, temp_lst)
+                    case "st":
+                        line_output = "00101"
+                        line_output = type_D(line_output, temp_lst)
 
 
-                #default case
-                case _:
-                    ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR :  Syntax Error")
+                    #type E instructions
+                    case "jmp":
+                        line_output = "01111"
+                        line_output = type_E(line_output, temp_lst)
 
-            output[temp_cnt] = line_output
+                    case "jlt":
+                        line_output = "11100"
+                        line_output = type_E(line_output, temp_lst)
+
+                    case "jgt":
+                        line_output = "11101"
+                        line_output = type_E(line_output, temp_lst)
+
+                    case "je":
+                        line_output = "11111"
+                        line_output = type_E(line_output, temp_lst)
+
+
+                    #default case
+                    case _:
+                        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR :  Syntax Error")
+
+                output[temp_cnt] = line_output
+            except:
+                pass # Unclear how to handle this
             #creating a temp counter (doesn't follow zero based indexing)
             if (line_lst[0] != "var"):    
                 temp_cnt += 1
