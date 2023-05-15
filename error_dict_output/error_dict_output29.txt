@@ -1,1 +1,1 @@
-2 : INVALID COMMAND
+2 : ERROR :  Syntax Error

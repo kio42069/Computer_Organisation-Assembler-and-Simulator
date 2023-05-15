@@ -1,4 +1,4 @@
-2 : INVALID COMMAND
+2 : ERROR :  Syntax Error
 3 : ERROR : Incorrect number of arguments
 5 : ERROR : Incorrect number of arguments
 6 : ERROR : Incorrect number of arguments
