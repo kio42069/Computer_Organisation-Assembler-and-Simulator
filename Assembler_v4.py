@@ -26,6 +26,12 @@ def decimal_to_binary(n):
 #3 register type
 def type_A(line_output, line_lst, registers):
     global temp_cnt, alt_counter
+
+    if len(line_lst) != 4:
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        return "ERROR"
+
+
     register1 = line_lst[1]
     register2 = line_lst[2]
     register3 = line_lst[3]
@@ -44,6 +50,10 @@ def type_A(line_output, line_lst, registers):
 #register and immediate type
 def type_B(line_output, line_lst, registers):
     global temp_cnt, alt_counter
+
+    if len(line_lst) != 3:
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        return "ERRORS"
 
     register = line_lst[1]
 
@@ -74,6 +84,11 @@ def type_B(line_output, line_lst, registers):
 #2 register type
 def type_C(line_output, line_lst, registers):
     global temp_cnt, alt_counter
+
+    if len(line_lst) != 3:
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        return "ERRORS"
+
     register1 = line_lst[1]
     register2 = line_lst[2]
 
@@ -91,6 +106,11 @@ def type_C(line_output, line_lst, registers):
 #register and memory address type (variable)
 def type_D(line_output, line_lst):
     global temp_cnt, alt_counter
+
+    if len(line_lst) != 3:
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        return "ERRORS"
+
     register = line_lst[1]
 
     if register not in registers:
@@ -120,6 +140,11 @@ def type_E(line_output, line_lst):
     global temp_cnt, alt_counter
     line_output += "0000"
 
+    if len(line_lst) != 2:
+        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : Incorrect number of arguments"
+        return "ERRORS"
+
+
     label = line_lst[1]
     if label not in labels:
         if label not in variables:
@@ -135,6 +160,7 @@ def type_E(line_output, line_lst):
 
 
 for folder_name in ["simpleBin", "hardBin", "errorGen"]:
+    print(len(os.listdir(f"{folder_name}Tests")))
     for test_case in range(1,len(os.listdir(f"{folder_name}Tests"))+1):
 
         with open(f"{folder_name}Tests/test{test_case}.txt", 'r') as f:
@@ -300,165 +326,88 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                 #type A instructions
                 case "add":
                     line_output = "00000"
-                    try:
-                        line_output = type_A(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_A(line_output, temp_lst, registers)
 
                 case "sub":
                     line_output = "00001"
-                    try:
-                        line_output = type_A(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_A(line_output, temp_lst, registers)
 
                 case "mul":
                     line_output = "00110"
-                    try:
-                        line_output = type_A(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_A(line_output, temp_lst, registers)
 
                 case "xor":
                     line_output = "01010"
-                    try:
-                        line_output = type_A(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_A(line_output, temp_lst, registers)
 
                 case "or":
                     line_output = "01011"
-                    try:
-                        line_output = type_A(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_A(line_output, temp_lst, registers)
 
                 case "and":
                     line_output = "01100"
-                    try:
-                        line_output = type_A(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_A(line_output, temp_lst, registers)
 
 
                 #type B instructions
                 case "mov":
                     if (temp_lst[2][0] == "$"):
                         line_output = "00010"
-                        try:
-                            line_output = type_B(line_output, temp_lst, registers)
-                        except:
-                            line_output = ""
-                            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                        line_output = type_B(line_output, temp_lst, registers)
 
                     else:       #type C (there are two mov instructions)
                         line_output = "00011"
-                        try:
-                            line_output = type_C(line_output, temp_lst, registers)
-                        except:
-                            line_output = ""
-                            ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                        line_output = type_C(line_output, temp_lst, registers)
 
                 case "rs":
                     line_output = "01000"
-                    try:
-                        line_output = type_B(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_B(line_output, temp_lst, registers)
 
                 case "ls":
                     line_output = "01001"
-                    try:
-                        line_output = type_B(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_B(line_output, temp_lst, registers)
 
 
                 #type C instructions
                 case "div":
                     line_output = "00111"
-                    try:
-                        line_output = type_C(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_C(line_output, temp_lst, registers)
 
                 case "not":
                     line_output = "01101"
-                    try:
-                        line_output = type_C(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_C(line_output, temp_lst, registers)
 
                 case "cmp":
                     line_output = "01110"
-                    try:
-                        line_output = type_C(line_output, temp_lst, registers)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_C(line_output, temp_lst, registers)
 
 
                 #type D instructions
                 case "ld":
                     line_output = "00100"
-                    try:
-                        line_output = type_D(line_output, temp_lst)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
-
+                    line_output = type_D(line_output, temp_lst)
 
                 case "st":
                     line_output = "00101"
-                    try:
-                        line_output = type_D(line_output, temp_lst)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_D(line_output, temp_lst)
 
 
                 #type E instructions
                 case "jmp":
                     line_output = "01111"
-                    try:
-                        line_output = type_E(line_output, temp_lst)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_E(line_output, temp_lst)
 
                 case "jlt":
                     line_output = "11100"
-                    try:
-                        line_output = type_E(line_output, temp_lst)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_E(line_output, temp_lst)
 
                 case "jgt":
                     line_output = "11101"
-                    try:
-                        line_output = type_E(line_output, temp_lst)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_E(line_output, temp_lst)
 
                 case "je":
                     line_output = "11111"
-                    try:
-                        line_output = type_E(line_output, temp_lst)
-                    except:
-                        line_output = ""
-                        ERRORS_DIC[temp_cnt+alt_counter+1] = "ERROR : General Syntax Error"
+                    line_output = type_E(line_output, temp_lst)
 
 
                 #default case

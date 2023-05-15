@@ -1,5 +1,5 @@
 2 : INVALID COMMAND
-3 : ERROR : General Syntax Error
-5 : ERROR : General Syntax Error
-6 : ERROR : General Syntax Error
+3 : ERROR : Incorrect number of arguments
+5 : ERROR : Incorrect number of arguments
+6 : ERROR : Incorrect number of arguments
 7 : ERROR : Missing hlt instruction
