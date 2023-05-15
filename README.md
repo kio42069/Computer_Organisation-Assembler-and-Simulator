@@ -27,4 +27,4 @@ The test file name format is test(number).txt
 
 The final assembler is `Assembler_v4.py`
 
-Errors thrown are 1-indexed while line addresses are 0-indexed
+Errors thrown are 1-indexed while line addresses of labels and variables are 0-indexed
