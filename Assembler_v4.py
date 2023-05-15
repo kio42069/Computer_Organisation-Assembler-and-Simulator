@@ -469,6 +469,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
         binary_instruction_values = output.values()
         if "1101000000000000" not in binary_instruction_values:
             ERRORS_DIC[line_counter+1].append("ERROR : Missing hlt instruction")
+            output[line_counter+1] = "ERROR"
         else:
             index = 0
             for i in code_as_lst:
@@ -477,6 +478,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                 if i == 'hlt' or i == 'hlt\n':
                     break
             if index != len(code_as_lst):
+                output[line_counter+1] = "ERROR"
                 ERRORS_DIC[index].append("ERROR  hlt not last instruction")
 
 

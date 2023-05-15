@@ -1,1 +1,1 @@
-0000000000001010
+4 : ERROR : Missing hlt instruction

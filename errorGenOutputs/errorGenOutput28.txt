@@ -1,2 +1,3 @@
-1101000000000000
-
+1 : ERROR  hlt not last instruction
+2 : ERROR : Variables not declared at the beginning
+3 : ERROR : Variables not declared at the beginning
