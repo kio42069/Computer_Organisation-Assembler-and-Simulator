@@ -479,7 +479,7 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                     break
             if index != len(code_as_lst):
                 output[line_counter+1] = "ERROR"
-                ERRORS_DIC[index].append("ERROR  hlt not last instruction")
+                ERRORS_DIC[index].append("ERROR : hlt not last instruction")
 
 
         #code to merge the binary code, ie. values of output dictionary
