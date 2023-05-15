@@ -498,11 +498,13 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
             with open(f"{folder_name}Outputs\{folder_name}Output{test_case}.txt", 'w') as f:
                 f.write(to_write)
             if to_write != '':
+                print(f"{folder_name}Output{test_case}.txt")
                 for i in to_write:
-                    if i != '\\':
+                    if i != '\n':
                         print(i, end = "")
                     else:
                         break
+                print()
                 print()
         code_as_lst = []
         ERRORS_DIC = {}
