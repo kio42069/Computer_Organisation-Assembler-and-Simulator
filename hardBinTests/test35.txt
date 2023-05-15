@@ -11,9 +11,9 @@ mov R1 $0
 st R1 zero
 mov R1 $1
 st R1 one
-mov R1 $215
+mov R1 $15
 st R1 input1
-mov R1 $145
+mov R1 $45
 st R1 input2
 mov R2 $2
 st R1 two

@@ -205,7 +205,6 @@ def type_E(line_output, line_lst):
 
 
 for folder_name in ["simpleBin", "hardBin", "errorGen"]:
-    print(len(os.listdir(f"{folder_name}Tests")))
     for test_case in range(1,len(os.listdir(f"{folder_name}Tests"))+1):
 
         with open(f"{folder_name}Tests/test{test_case}.txt", 'r') as f:
@@ -498,8 +497,12 @@ for folder_name in ["simpleBin", "hardBin", "errorGen"]:
                     to_write += str(i) + " : " + j + "\n"
             with open(f"{folder_name}Outputs\{folder_name}Output{test_case}.txt", 'w') as f:
                 f.write(to_write)
-        # if len(ERRORS_DIC) > 0:
-        #     error = list(ERRORS_DIC.keys())[0][0]
-        #     print(f"File : {folder_name}Test{test_case} "+ERRORS_DIC[error]+" on line "+ str(error))
+            if to_write != '':
+                for i in to_write:
+                    if i != '\\':
+                        print(i, end = "")
+                    else:
+                        break
+                print()
         code_as_lst = []
         ERRORS_DIC = {}
