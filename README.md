@@ -25,7 +25,7 @@ We are creating the output files in the respective folders with the postfix Outp
 
 The test file name format is test(number).txt
 
-The final assembler is `Assembler_v4.py`
+The final assembler is `final_assembler.py`
 
 Errors thrown are 1-indexed while line addresses of labels and variables are 0-indexed
 

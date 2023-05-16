@@ -1,6 +1,0 @@
-or R1 R2 R3
-or R1 R2 R3
-or R1 R2 R3
-or R1 R2 R3
-or R1 R2 R3
-hlt

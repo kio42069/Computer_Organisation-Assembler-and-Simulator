@@ -1,3 +1,0 @@
-var		x
-st R0 x
-hlt

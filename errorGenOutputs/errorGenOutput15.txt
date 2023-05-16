@@ -1,2 +1,0 @@
-8 : ERROR : Use of undefined variable
-9 : ERROR : Use of undefined variable

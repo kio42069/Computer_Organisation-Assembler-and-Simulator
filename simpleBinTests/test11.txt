@@ -1,6 +1,0 @@
-xor R1 R2 R3
-xor R1 R2 R3
-xor R1 R2 R3
-xor R1 R2 R3
-xor R1 R2 R3
-hlt

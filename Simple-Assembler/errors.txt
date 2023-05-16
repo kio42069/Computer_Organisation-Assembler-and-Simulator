@@ -1,0 +1,29 @@
+8 : ERROR : Use of undefined variable
+9 : ERROR : Use of undefined variable
+
+2 : ERROR : Typo in instruction name
+2 : ERROR :  Syntax Error
+3 : ERROR : Incorrect number of arguments
+5 : ERROR : Incorrect number of arguments
+5 : ERROR : Use of undefined register
+6 : ERROR : Incorrect number of arguments
+6 : ERROR : Use of undefined register
+7 : ERROR : Incorrect number of arguments
+7 : ERROR : Use of undefined register
+7 : ERROR : Missing hlt instruction
+
+2 : ERROR : Typo in instruction name
+2 : ERROR :  Syntax Error
+3 : ERROR : Incorrect number of arguments
+5 : ERROR : Incorrect number of arguments
+5 : ERROR : Use of undefined register
+6 : ERROR : Incorrect number of arguments
+6 : ERROR : Use of undefined register
+7 : ERROR : Incorrect number of arguments
+7 : ERROR : Use of undefined register
+7 : ERROR : Missing hlt instruction
+
+7 : ERROR : Missing hlt instruction
+
+3 : ERROR : Use of undefined variable
+

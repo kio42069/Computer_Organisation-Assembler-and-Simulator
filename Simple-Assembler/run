@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python3 final_assembler.py

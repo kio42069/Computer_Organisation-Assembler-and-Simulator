@@ -1,5 +1,0 @@
-2 : ERROR :  Syntax Error
-3 : ERROR : Use of undefined register
-5 : ERROR : Use of undefined register
-6 : ERROR : Use of undefined register
-7 : ERROR : Missing hlt instruction

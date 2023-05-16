@@ -1,4 +1,0 @@
-1 : ERROR : Illegal Immediate Value
-3 : ERROR : Illegal Immediate Value
-4 : ERROR : Illegal Immediate Value
-7 : ERROR : Missing hlt instruction

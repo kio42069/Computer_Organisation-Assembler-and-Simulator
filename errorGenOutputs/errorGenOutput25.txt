@@ -1,3 +1,0 @@
-7 : ERROR : Illegal Immediate Value
-12 : ERROR : Typo in instruction name
-12 : ERROR :  Syntax Error

@@ -1,2 +1,0 @@
-17 : ERROR : Illegal Immediate Value
-19 : ERROR : Illegal Immediate Value

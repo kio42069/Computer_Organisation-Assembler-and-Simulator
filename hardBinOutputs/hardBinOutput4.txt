@@ -1,3 +1,0 @@
-2 : ERROR : Variables not declared at the beginning
-3 : ERROR : Variables not declared at the beginning
-7 : ERROR : Illegal Immediate Value

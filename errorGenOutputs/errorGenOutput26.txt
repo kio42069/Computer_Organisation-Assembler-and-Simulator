@@ -1,2 +1,0 @@
-3 : ERROR : Incorrect number of arguments
-3 : ERROR : Use of undefined register

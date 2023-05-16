@@ -1,2 +1,0 @@
-12 : ERROR :  Syntax Error
-7 : ERROR : Illegal Immediate Value

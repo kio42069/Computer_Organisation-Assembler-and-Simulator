@@ -1,1 +1,0 @@
-7 : ERROR : Use of undefined variable

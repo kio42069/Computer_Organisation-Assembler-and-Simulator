@@ -1,4 +1,0 @@
-rs R1 $1
-rs R1 $1
-rs R1 $1
-hlt

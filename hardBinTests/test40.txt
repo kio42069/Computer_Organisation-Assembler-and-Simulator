@@ -1,7 +1,0 @@
-mov R1 $5
-label:
-mov R1 $5
-mov R1 $5
-mov R1 $5
-jmp label
-hlt
