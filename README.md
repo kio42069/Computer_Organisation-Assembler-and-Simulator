@@ -1,9 +1,9 @@
-# Computer Organisation
-Create a binary assembler and a simulator for testing it
-
+# CSE112 - Semester Project
 CSE112 - Computer Organisation
 
-Semester Group Project
+Objective: To create a basic assembler and simulator
+
+Language: Python
 
 # Collaborators
 Prashi Jain [@ded-avishi](https://www.github.com/ded-avishi)
