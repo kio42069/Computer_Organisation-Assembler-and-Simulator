@@ -16,17 +16,12 @@ Tanish Verma [@VerTanish](https://www.github.com/vertanish)
 
 # Automation
 
-We have created our assembler to automatically test for all test files
-We have assumed the errorGen test cases are stored in a sub-directory called errorGenTests
-We have assumed the simpleBin test cases are stored in a sub-directory called simpleBinTests
-We have assumed the hardBin test cases are stored in a sub-directory called hardBinTests
-
-We are creating the output files in the respective folders with the postfix Outputs
-
-The test file name format is test(number).txt
-
 The final assembler is `final_assembler.py`
 
 Errors thrown are 1-indexed while line addresses of labels and variables are 0-indexed
 
-if label is not followed by an instruction, we are ignoring it and not throwing an error
+If label is not followed by an instruction, we are ignoring it and not throwing an error
+
+In case a file has multiple errors, we are storing them in a text file in the same directory as the source code named `errors.txt`. It catches all errors in a single line too.
+
+We are printing one of the errors on the terminal
