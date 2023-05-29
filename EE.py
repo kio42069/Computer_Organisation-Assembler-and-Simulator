@@ -1,6 +1,15 @@
 #decimal to binary
+def decimal_to_binary(number):
+    return bin(int(number))[2:]
 
 #binary to decimal
+def binary_to_binary(number):
+    number = str(int(number))
+    decimal = 0
+    i = len(number)-1
+    while(i >= 0):
+        decimal += int(number[i])*(2**(len(number)-1-i))
+    return decimal
 
 def add(curr_line, PC, registers):
 
