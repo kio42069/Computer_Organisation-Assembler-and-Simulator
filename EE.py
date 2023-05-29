@@ -136,6 +136,7 @@ def jgt(label, PC, registers):
 def je(label, PC, registers):
 
 def hlt(halted):
+    halted = True
 
 def execute(curr_line, PC, registers, halted):
     opcode = curr_line[:5]
