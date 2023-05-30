@@ -7,9 +7,11 @@ def binary_to_decimal(number):
     number = str(int(number))
     decimal = 0
     i = len(number)-1
+
     while(i >= 0):
         decimal += int(number[i])*(2**(len(number)-1-i))
         i -= 1
+
     return decimal
 
 
@@ -20,6 +22,7 @@ def A(curr_line, registers):
     reg3 = curr_line[13:16]
     value2 = binary_to_decimal(str(int(registers[reg2])))
     value3 = binary_to_decimal(str(int(registers[reg3])))
+
     match opcode:
         case "00000":
             add(value2, value3, reg1, registers)
@@ -63,6 +66,7 @@ def C(curr_line, registers):
     reg1 = curr_line[10:13]
     reg2 = curr_line[13:16]
     value2 = binary_to_decimal(str(int(registers[reg2])))
+
     match opcode:
         case "00011":
             mov_r(reg1, value2, registers)
@@ -113,26 +117,33 @@ def E(curr_line, PC, registers):
 
 def add(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) + int(value3)))
+
     if len(value1) > 16:
         registers[reg1] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+
     else:
         num_zeroes = 16 - len(value1)
         for i in range(num_zeroes):
             value1 = '0' + value1
         registers[reg1] = value1
+
     return registers
     
 
 def sub(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) - int(value3)))
+
     if len(value1) > 16 or int(value2) < int(value3):
         registers[reg1] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+
     else:
         num_zeroes = 16 - len(value1)
+
         for i in range(num_zeroes):
             value1 = '0' + value1
+
         registers[reg1] = value1
 
     return registers
@@ -159,14 +170,18 @@ def st(reg, var, registers, memory):
 
 def mul(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) * int(value3)))
+
     if len(value1 > 16):
         registers[reg1] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+
     else:
         num_zeroes = 16 - len(value1)
+
         for i in range(num_zeroes):
             value1 = '0' + value1
         registers[reg1] = value1
+
     return registers
 
 def div(reg1, value2, registers):
@@ -174,77 +189,98 @@ def div(reg1, value2, registers):
         registers["000"] = "0000000000000000"
         registers["001"] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+
     else:
         value1 = registers[reg1]
         quotient = value1 // value2
         remainder = value1 % value2
         registers["000"] = quotient
         registers["001"] = remainder
+
     return registers
 
 def rs(reg, imm, registers):
     imm = int(binary_to_decimal(imm))
     value = int(binary_to_decimal(registers[reg]))
     registers[reg] = decimal_to_binary(str(value >> imm))
+
     return registers
 
 def ls(reg, imm, registers):
     imm = int(binary_to_decimal(imm))
     value = int(binary_to_decimal(registers[reg]))
     registers[reg] = decimal_to_binary(str(value << imm))
+
     return registers
 
 
 def xor(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) ^ int(value3)))
+
     if len(value1) > 16:
         registers[reg1] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+
     else:
         num_zeroes = 16 - len(value1)
         for i in range(num_zeroes):
             value1 = '0' + value1
         registers[reg1] = value1
+
     return registers
 
 def Or(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) | int(value3)))
+
     if len(value1) > 16:
         registers[reg1] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+
     else:
         num_zeroes = 16 - len(value1)
+
         for i in range(num_zeroes):
             value1 = '0' + value1
         registers[reg1] = value1
+
     return registers
 
 def And(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) & int(value3)))
+
     if len(value1) > 16:
         registers[reg1] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+
     else:
         num_zeroes = 16 - len(value1)
+
         for i in range(num_zeroes):
             value1 = '0' + value1
         registers[reg1] = value1
+
     return registers
 
 def Not(reg1, value2, registers):
     value1 = decimal_to_binary(str(int(~value2)))
     registers[reg1] = value1
+
     return registers
 
 def cmp(reg1, value2, registers):
     value1 = registers[reg1]
+
     if value1 < value2:
         registers["111"] = registers["111"][:13] + "1" + registers["111"][14:]
+
     elif value1 > value2:
         registers["111"] = registers["111"][:14] + "1" + registers["111"][15:]
+
     elif value1 == value2:
         registers["111"] = registers["111"][:15] + "1"
+
     return registers
+
 def jmp(label, PC, registers):
     pass
 
@@ -265,7 +301,6 @@ def execute(curr_line, PC, registers, halted, memory):
     c_opcodes = ["00011", "00111", "01101", "01110"]
     d_opcodes = ["00100", "00101"]
     e_opcodes = ["01111", "11100", "11101", "11111"]
-    
 
     if opcode in a_opcodes:
         registers = A(curr_line, registers)

@@ -18,14 +18,18 @@ while (not halted):
     PC, halted, registers = EE.execute(curr_line, PC, registers, halted, memory)
     printable_PC = EE.decimal_to_binary(PC)
     num_zeroes = 7 - len(printable_PC)
+
     for i in range(num_zeroes):
         printable_PC = '0' + printable_PC
+
     print(printable_PC, end = " ")
+
     for i in registers.values():
         print(i, end = " ")
+
     print()
 
 # memory dump
 for i in memory:
-    # print(i)
-    pass
+    print(i)
+
