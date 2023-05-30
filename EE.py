@@ -138,6 +138,8 @@ def sub(value2, value3, reg1, registers):
     return registers
     
 def mov_i(reg, imm, registers):
+    num_zeroes = 16-len(imm)
+    imm = "0"*num_zeroes + imm
     registers[reg] = imm
     return registers
 

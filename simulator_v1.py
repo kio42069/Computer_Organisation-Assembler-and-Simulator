@@ -7,7 +7,7 @@ registers = {"000": "0000000000000000", "001": "0000000000000000", "010": "00000
 
 halted = False
 
-with open("test2", 'r') as file:
+with open("test3", 'r') as file:
     lst = file.readlines()
 
 for i in range(len(lst)):
