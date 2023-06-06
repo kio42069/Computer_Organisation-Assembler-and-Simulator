@@ -99,21 +99,22 @@ def D(curr_line, registers, memory):
 def E(curr_line, PC, registers):
     opcode = curr_line[:5]
     label = curr_line[9:16]
+    label = binary_to_decimal(label)
 
     match opcode:
         case "01111":
-            jmp(label, PC, registers)
+            registers, PC = jmp(label, PC, registers)
 
         case "11100":
-            jlt(label, PC, registers)
+            registers, PC = jlt(label, PC, registers)
 
         case "11101":
-            jgt(label, PC, registers)
+            registers, PC = jgt(label, PC, registers)
 
         case "11111":
-            je(label, PC, registers)
+            registers, PC = je(label, PC, registers)
 
-    return registers
+    return registers, PC
 
 def add(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) + int(value3)))
@@ -282,17 +283,38 @@ def cmp(reg1, value2, registers):
     return registers
 
 def jmp(label, PC, registers):
-    pass
+    PC = label
+    return registers, PC
 
 def jlt(label, PC, registers):
-    pass
+    
+    if registers["FLAGS"][13] == 1:
+        PC = label
+
+    else:
+        PC += 1
+
+    return registers, PC
 
 def jgt(label, PC, registers):
-    pass
+    
+    if registers["FLAGS"][14] == 1:
+        PC = label
+
+    else:
+        PC += 1
+
+    return registers, PC
 
 def je(label, PC, registers):
-    pass
+    
+    if registers["FLAGS"][15] == 1:
+        PC = label
 
+    else:
+        PC += 1
+
+    return registers, PC
 
 def execute(curr_line, PC, registers, halted, memory):
     opcode = curr_line[:5]
@@ -319,7 +341,7 @@ def execute(curr_line, PC, registers, halted, memory):
         PC += 1
 
     elif opcode in e_opcodes:
-        registers = E(curr_line, registers)
+        registers, PC = E(curr_line, PC, registers)
 
     else:
         halted = True
