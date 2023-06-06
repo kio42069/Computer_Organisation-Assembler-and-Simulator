@@ -22,6 +22,7 @@ def A(curr_line, registers):
     reg3 = curr_line[13:16]
     value2 = binary_to_decimal(str(int(registers[reg2])))
     value3 = binary_to_decimal(str(int(registers[reg3])))
+    flags_copy = registers['111']
 
     match opcode:
         case "00000":
@@ -41,6 +42,9 @@ def A(curr_line, registers):
 
         case "01100":
             And(value2, value3, reg1, registers)
+            
+    if flags_copy != registers['111']:
+        registers['111'] = "0000000000000000"
 
     return registers
 
@@ -48,6 +52,7 @@ def B(curr_line, registers):
     opcode = curr_line[:5]
     reg = curr_line[6:9]
     imm = curr_line[9:16]
+    flags_copy = registers['111']
 
     match opcode:
         case "00010":
@@ -59,6 +64,9 @@ def B(curr_line, registers):
         case "01001":
             ls(reg, imm, registers)
 
+    if flags_copy != registers['111']:
+        registers['111'] = "0000000000000000"
+
     return registers
 
 def C(curr_line, registers):
@@ -66,6 +74,7 @@ def C(curr_line, registers):
     reg1 = curr_line[10:13]
     reg2 = curr_line[13:16]
     value2 = binary_to_decimal(str(int(registers[reg2])))
+    flags_copy = registers['111']
 
     match opcode:
         case "00011":
@@ -80,12 +89,16 @@ def C(curr_line, registers):
         case "01110":
             cmp(reg1, value2, registers)
 
+    if flags_copy != registers['111']:
+        registers['111'] = "0000000000000000"
+
     return registers
 
 def D(curr_line, registers, memory):
     opcode = curr_line[:5]
     reg = curr_line[6:9]
     var = binary_to_decimal(curr_line[9:16])
+    flags_copy = registers['111']
 
     match opcode:
         case "00100":
@@ -94,12 +107,16 @@ def D(curr_line, registers, memory):
         case "00101":
             st(reg, var, registers, memory)
 
+    if flags_copy != registers['111']:
+        registers['111'] = "0000000000000000"
+
     return registers
 
 def E(curr_line, PC, registers):
     opcode = curr_line[:5]
     label = curr_line[9:16]
     label = binary_to_decimal(label)
+    flags_copy = registers['111']
 
     match opcode:
         case "01111":
@@ -113,6 +130,9 @@ def E(curr_line, PC, registers):
 
         case "11111":
             registers, PC = je(label, PC, registers)
+
+    if flags_copy != registers['111']:
+        registers['111'] = "0000000000000000"
 
     return registers, PC
 
