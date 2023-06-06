@@ -66,7 +66,9 @@ def number_to_float(val):
 
     elif flag == "Denormal":
         init_exp = "000"
-        print(val)
+        denormal_flag = 1
+        if val<0.0078125:
+            denormal_flag = 0
         val = val * 4
         flt = val
         cnt=0
@@ -79,7 +81,10 @@ def number_to_float(val):
             flt = flt%1
             cnt+=1
         #print(out)
-        out = init_exp + out 
+        if denormal_flag == 0:
+            out = init_exp + "00000"
+        else:
+            out = init_exp + out 
 
     return out
         
@@ -105,7 +110,7 @@ def dec_to_bin(decval):
     out = str(bininteg) + "." + out
     return out
 
-print(number_to_float(0.2))
+print(number_to_float(0.007))
 
 def float_to_dec(strfloat):
     exponent = strfloat[:3]
@@ -136,4 +141,4 @@ def denormal_float_to_dec(strfloat):
 
     return dec_val
 
-print(float_to_dec("00011001"))
+print(float_to_dec("00000000"))
