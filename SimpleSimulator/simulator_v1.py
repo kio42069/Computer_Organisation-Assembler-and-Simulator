@@ -10,9 +10,6 @@ halted = False
 import sys
 lst = sys.stdin.readlines()
 
-# with open("test4", "r") as f:
-#     lst = f.readlines()
-
 for i in range(len(lst)):
     memory[i] = lst[i].strip()
 

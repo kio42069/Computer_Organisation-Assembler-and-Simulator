@@ -252,7 +252,7 @@ def st(reg, var, registers, memory):
 def mul(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) * int(value3)))
 
-    if len(value1 > 16):
+    if len(value1) > 16:
         registers[reg1] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
 
@@ -266,8 +266,8 @@ def mul(value2, value3, reg1, registers):
     return registers
 
 def addf(reg2, reg3, reg1, registers):
-    value2 = float_to_dec(registers[reg2])
-    value3 = float_to_dec(registers[reg3])
+    value2 = float_to_dec(registers[reg2][8:])
+    value3 = float_to_dec(registers[reg3][8:])
     value1 = value2 + value3
 
     if value1 > 15.75:
@@ -275,13 +275,14 @@ def addf(reg2, reg3, reg1, registers):
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
     else:
         value1 = number_to_float(value1)
+        value1 = "0"*(16-len(value1))+value1
         registers[reg1] = value1
 
     return registers
 
 def subf(reg2, reg3, reg1, registers):
-    value2 = float_to_dec(registers[reg2])
-    value3 = float_to_dec(registers[reg3])
+    value2 = float_to_dec(registers[reg2][8:])
+    value3 = float_to_dec(registers[reg3][8:])
     value1 = value2 - value3
     
     if value1 < 0:
@@ -289,6 +290,7 @@ def subf(reg2, reg3, reg1, registers):
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
     else:
         value1 = number_to_float(value1)
+        value1 = "0"*(16-len(value1))+value1
         registers[reg1] = value1
 
     return registers
@@ -302,6 +304,7 @@ def div(reg1, value2, registers):
 
     else:
         value1 = registers[reg1]
+        value1 = int(binary_to_decimal(value1))
         quotient = value1 // value2
         remainder = value1 % value2
         registers["000"] = quotient
@@ -427,7 +430,7 @@ def je(label, PC, registers):
 
 def execute(curr_line, PC, registers, halted, memory):
     opcode = curr_line[:5]
-    a_opcodes = ["00000", "00001", "00110", "01010", "01011", "01100"]
+    a_opcodes = ["00000", "00001", "00110", "01010", "01011", "01100", "10000", "10001"]
     b_opcodes = ["00010", "01000", "01001"]
     c_opcodes = ["00011", "00111", "01101", "01110"]
     d_opcodes = ["00100", "00101"]
@@ -456,9 +459,11 @@ def execute(curr_line, PC, registers, halted, memory):
 
     elif opcode in b_float_codes:
         registers = type_B_float(curr_line, registers)
+        PC += 1
 
     elif opcode in bonus:
         registers = bonus(curr_line, registers)
+        PC += 1
 
     else:
         halted = True

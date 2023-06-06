@@ -357,7 +357,6 @@ def bcf_and_bsf(line_output, line_lst):
 
 
 import sys
-
 code_as_lst = sys.stdin.readlines()
 
 #removing empty lines from code_as_lst
