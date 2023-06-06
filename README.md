@@ -26,7 +26,7 @@ In case a file has multiple errors, we are storing them in a text file in the sa
 
 We are printing one of the errors on the terminal
 
-#Float Arithmetic Details
+# Float Arithmetic Details
 
 Range of normal numbers - 0.25 to 15.75
 
