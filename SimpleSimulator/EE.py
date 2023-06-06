@@ -28,7 +28,7 @@ def A(curr_line, registers):
     match opcode:
         case "00000":
             registers = add(value2, value3, reg1, registers)
-        
+
         case "00001":
             registers = sub(value2, value3, reg1, registers)
 
@@ -37,7 +37,7 @@ def A(curr_line, registers):
 
         case "01010":
             registers = xor(value2, value3, reg1, registers)
-        
+
         case "01011":
             registers = Or(value2, value3, reg1, registers)
 
@@ -49,7 +49,7 @@ def A(curr_line, registers):
 
         case "10001":
             registers = subf(reg2, reg3, reg1, registers)
-            
+
     if flags_copy == registers['111']:
         registers['111'] = "0000000000000000"
 
@@ -210,7 +210,7 @@ def add(value2, value3, reg1, registers):
         registers[reg1] = value1
 
     return registers
-    
+
 
 def sub(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) - int(value3)))
@@ -228,7 +228,7 @@ def sub(value2, value3, reg1, registers):
         registers[reg1] = value1
 
     return registers
-    
+
 def mov_i(reg, imm, registers):
     num_zeroes = 16-len(imm)
     imm = "0"*num_zeroes + imm
@@ -284,7 +284,7 @@ def subf(reg2, reg3, reg1, registers):
     value2 = float_to_dec(registers[reg2][8:])
     value3 = float_to_dec(registers[reg3][8:])
     value1 = value2 - value3
-    
+
     if value1 < 0:
         registers[reg1] = "0000000000000000"
         registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
@@ -399,7 +399,7 @@ def jmp(label, PC, registers):
     return registers, PC
 
 def jlt(label, PC, registers):
-    
+
     if registers["111"][13] == "1":
         PC = label
 
@@ -409,7 +409,7 @@ def jlt(label, PC, registers):
     return registers, PC
 
 def jgt(label, PC, registers):
-    
+
     if registers["111"][14] == '1':
         PC = label
 
@@ -419,7 +419,7 @@ def jgt(label, PC, registers):
     return registers, PC
 
 def je(label, PC, registers):
-    
+
     if registers["111"][15] == "1":
         PC = label
 
@@ -468,5 +468,5 @@ def execute(curr_line, PC, registers, halted, memory):
     else:
         halted = True
         PC += 1
-
+        registers['111'] = '0000000000000000'
     return PC, halted, registers
