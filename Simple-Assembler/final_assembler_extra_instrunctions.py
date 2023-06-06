@@ -81,6 +81,15 @@ def type_B(line_output, line_lst, registers):
         line_output = "ERROR"
         flag = 0
 
+    try:
+        if line_lst[2][0] != "$":
+            flag = 0
+            line_output = "ERROR"
+            ERRORS_DIC[line_counter+alt_counter].append("ERROR : Immediate value doesn't start with a $")
+    except:
+        pass
+        
+
     imm = line_lst[2][1:]
     try:
         num = eval(imm)
@@ -90,11 +99,6 @@ def type_B(line_output, line_lst, registers):
                 line_output = "ERROR"
                 ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
 
-        elif type(num) == float:
-            if num < 0 or num > 15.75:
-                flag = 0
-                line_output = "ERROR"
-                ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
     except:
         flag = 0
         line_output = "ERROR"
@@ -102,17 +106,13 @@ def type_B(line_output, line_lst, registers):
 
     if flag:
         imm = eval(imm)
-        if type(imm) == int:
-            imm = decimal_to_binary(imm)
+        imm = decimal_to_binary(imm)
 
-            length_of_imm_to_be_added = 7 - len(imm)       
-            for i in range(length_of_imm_to_be_added):
-                imm = '0' + imm
+        length_of_imm_to_be_added = 7 - len(imm)       
+        for i in range(length_of_imm_to_be_added):
+            imm = '0' + imm
 
-            line_output += f"0{registers[register]}{imm}"
-        elif type(imm) == float:
-            imm = number_to_float(float(imm))
-            line_output += f"{registers[register]}{imm}"
+        line_output += f"0{registers[register]}{imm}"
 
 
     return line_output
@@ -223,6 +223,56 @@ def type_E(line_output, line_lst):
         line_output += labels[line_lst[1]]
     return line_output
 
+def type_B_float(line_output, line_lst, registers):
+    global temp_cnt, alt_counter
+    flag = 1
+    if len(line_lst) != 3:
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Incorrect number of arguments")
+        line_output = "ERROR"
+        flag = 0
+    try:
+        register = line_lst[1]
+    except:
+        register = ""
+    if register not in registers:
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined register")
+        line_output = "ERROR"
+        flag = 0
+    elif register == "FLAGS":
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : ERROR : Illegal use of FLAGS register")
+        line_output = "ERROR"
+        flag = 0
+
+    try:
+        if line_lst[2][0] != "$":
+            flag = 0
+            line_output = "ERROR"
+            ERRORS_DIC[line_counter+alt_counter].append("ERROR : Immediate value doesn't start with a $")
+    except:
+        pass
+
+    imm = line_lst[2][1:]
+    try:
+        num = eval(imm)
+        if type(num) == float:
+            if num < 0 or num > 15.75:
+                flag = 0
+                line_output = "ERROR"
+                ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
+    except:
+        flag = 0
+        line_output = "ERROR"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
+
+    if flag:
+        imm = eval(imm)
+        imm = number_to_float(float(imm))
+        line_output += f"{registers[register]}{imm}"
+
+
+    return line_output
+
+
 
 #incf and decf
 def incf_and_decf(line_output, line_lst):
@@ -263,6 +313,14 @@ def bcf_and_bsf(line_output, line_lst):
             line_output = "ERROR"
             ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined register")
         
+        try:
+            if line_lst[2][0] != "$":
+                flag = 0
+                line_output = "ERROR"
+                ERRORS_DIC[line_counter+alt_counter].append("ERROR : Immediate value doesn't start with a $")
+        except:
+            pass
+
         if flag:    
             line_output += reg
             imm = line_lst[2][1:]
@@ -370,6 +428,12 @@ for line in code_as_lst:
         case "and":
             line_counter += 1
 
+        case "addf":
+            line_counter += 1
+        
+        case "subf":
+            line_counter += 1
+
 
         #type B instructions
         case "mov":
@@ -379,6 +443,9 @@ for line in code_as_lst:
             line_counter += 1
 
         case "ls":
+            line_counter += 1
+
+        case "movf":
             line_counter += 1
 
 
@@ -503,7 +570,14 @@ for line in code_as_lst:
             case "and":
                 line_output = "01100"
                 line_output = type_A(line_output, temp_lst, registers)
+            
+            case "addf":
+                line_output = "10000"
+                line_output = type_A(line_output, temp_lst, registers)
 
+            case "subf":
+                line_output = "10001"
+                line_output = type_A(line_output, temp_lst, registers)
 
             #type B instructions
             case "mov":
@@ -523,6 +597,9 @@ for line in code_as_lst:
                 line_output = "01001"
                 line_output = type_B(line_output, temp_lst, registers)
 
+            case "movf":
+                line_output = "10010"
+                line_output = type_B_float(line_output, temp_lst, registers)
 
             #type C instructions
             case "div":

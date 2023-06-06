@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python3 final_assembler.py
+python3 final_assembler_extra_instructions.py
