@@ -14,6 +14,7 @@ def binary_to_decimal(number):
 
     return decimal
 
+from float_q3 import *
 
 def A(curr_line, registers):
     opcode = curr_line[:5]
@@ -26,22 +27,28 @@ def A(curr_line, registers):
 
     match opcode:
         case "00000":
-            add(value2, value3, reg1, registers)
+            registers = add(value2, value3, reg1, registers)
         
         case "00001":
-            sub(value2, value3, reg1, registers)
+            registers = sub(value2, value3, reg1, registers)
 
         case "00110":
-            mul(value2, value3, reg1, registers)
+            registers = mul(value2, value3, reg1, registers)
 
         case "01010":
-            xor(value2, value3, reg1, registers)
+            registers = xor(value2, value3, reg1, registers)
         
         case "01011":
-            Or(value2, value3, reg1, registers)
+            registers = Or(value2, value3, reg1, registers)
 
         case "01100":
-            And(value2, value3, reg1, registers)
+            registers = And(value2, value3, reg1, registers)
+
+        case "10000":
+            registers = addf(reg2, reg3, reg1, registers)
+
+        case "10001":
+            registers = subf(reg2, reg3, reg1, registers)
             
     if flags_copy != registers['111']:
         registers['111'] = "0000000000000000"
@@ -56,15 +63,15 @@ def B(curr_line, registers):
 
     match opcode:
         case "00010":
-            mov_i(reg, imm, registers)
+            registers = mov_i(reg, imm, registers)
 
         case "01000":
-            rs(reg, imm, registers)
+            registers = rs(reg, imm, registers)
 
         case "01001":
-            ls(reg, imm, registers)
+            registers = ls(reg, imm, registers)
 
-    if flags_copy != registers['111']:
+    if flags_copy == registers['111']:
         registers['111'] = "0000000000000000"
 
     return registers
@@ -78,18 +85,18 @@ def C(curr_line, registers):
 
     match opcode:
         case "00011":
-            mov_r(reg1, value2, registers)
+            registers = mov_r(reg1, value2, registers)
 
         case "00111":
-            div(reg1, value2, registers)
+            registers = div(reg1, value2, registers)
 
         case "01101":
-            Not(reg1, value2, registers)
+            registers = Not(reg1, value2, registers)
 
         case "01110":
-            cmp(reg1, value2, registers)
+            registers = cmp(reg1, value2, registers)
 
-    if flags_copy != registers['111']:
+    if flags_copy == registers['111']:
         registers['111'] = "0000000000000000"
 
     return registers
@@ -107,7 +114,7 @@ def D(curr_line, registers, memory):
         case "00101":
             st(reg, var, registers, memory)
 
-    if flags_copy != registers['111']:
+    if flags_copy == registers['111']:
         registers['111'] = "0000000000000000"
 
     return registers
@@ -131,10 +138,18 @@ def E(curr_line, PC, registers):
         case "11111":
             registers, PC = je(label, PC, registers)
 
-    if flags_copy != registers['111']:
+    if flags_copy == registers['111']:
         registers['111'] = "0000000000000000"
 
     return registers, PC
+
+def type_B_float(curr_line, PC, registers):
+    opcode = curr_line[:5]
+    reg = curr_line[5:8]
+    imm = curr_line[8:]
+    imm = "0"*(16-len(imm))+imm
+    registers[reg] = imm
+    return registers
 
 def add(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) + int(value3)))
@@ -204,6 +219,35 @@ def mul(value2, value3, reg1, registers):
         registers[reg1] = value1
 
     return registers
+
+def addf(reg2, reg3, reg1, registers):
+    value2 = float_to_dec(registers[reg2])
+    value3 = float_to_dec(registers[reg3])
+    value1 = value2 + value3
+
+    if value1 > 15.75:
+        registers[reg1] = "0000000000000000"
+        registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+    else:
+        value1 = number_to_float(value1)
+        registers[reg1] = value1
+
+    return registers
+
+def subf(reg2, reg3, reg1, registers):
+    value2 = float_to_dec(registers[reg2])
+    value3 = float_to_dec(registers[reg3])
+    value1 = value2 - value3
+    
+    if value1 < 0:
+        registers[reg1] = "0000000000000000"
+        registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+    else:
+        value1 = number_to_float(value1)
+        registers[reg1] = value1
+
+    return registers
+
 
 def div(reg1, value2, registers):
     if value2 == 0:
@@ -343,6 +387,7 @@ def execute(curr_line, PC, registers, halted, memory):
     c_opcodes = ["00011", "00111", "01101", "01110"]
     d_opcodes = ["00100", "00101"]
     e_opcodes = ["01111", "11100", "11101", "11111"]
+    b_float_codes = ["10010"]
 
     if opcode in a_opcodes:
         registers = A(curr_line, registers)
@@ -362,6 +407,9 @@ def execute(curr_line, PC, registers, halted, memory):
 
     elif opcode in e_opcodes:
         registers, PC = E(curr_line, PC, registers)
+
+    elif opcode in b_float_codes:
+        registers, PC = type_B_float(curr_line, PC, registers)
 
     else:
         halted = True

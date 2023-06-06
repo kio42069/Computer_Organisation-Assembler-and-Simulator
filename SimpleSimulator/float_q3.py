@@ -110,7 +110,6 @@ def dec_to_bin(decval):
     out = str(bininteg) + "." + out
     return out
 
-print(number_to_float(0.007))
 
 def float_to_dec(strfloat):
     exponent = strfloat[:3]
@@ -141,4 +140,3 @@ def denormal_float_to_dec(strfloat):
 
     return dec_val
 
-print(float_to_dec("00000000"))
