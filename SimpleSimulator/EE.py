@@ -50,7 +50,7 @@ def A(curr_line, registers):
         case "10001":
             registers = subf(reg2, reg3, reg1, registers)
             
-    if flags_copy != registers['111']:
+    if flags_copy == registers['111']:
         registers['111'] = "0000000000000000"
 
     return registers
@@ -85,7 +85,7 @@ def C(curr_line, registers):
 
     match opcode:
         case "00011":
-            registers = mov_r(reg1, value2, registers)
+            registers = mov_r(reg1, reg2, registers)
 
         case "00111":
             registers = div(reg1, value2, registers)
@@ -236,8 +236,8 @@ def mov_i(reg, imm, registers):
     return registers
 
 
-def mov_r(reg1, value2, registers):
-    value1 = value2
+def mov_r(reg1, reg2, registers):
+    value1 = registers[reg2]
     registers[reg1] = value1
     return registers
 
@@ -378,7 +378,7 @@ def Not(reg1, value2, registers):
     return registers
 
 def cmp(reg1, value2, registers):
-    value1 = registers[reg1]
+    value1 = int(binary_to_decimal(registers[reg1]))
 
     if value1 < value2:
         registers["111"] = registers["111"][:13] + "1" + registers["111"][14:]
@@ -397,7 +397,7 @@ def jmp(label, PC, registers):
 
 def jlt(label, PC, registers):
     
-    if registers["FLAGS"][13] == 1:
+    if registers["111"][13] == "1":
         PC = label
 
     else:
@@ -407,7 +407,7 @@ def jlt(label, PC, registers):
 
 def jgt(label, PC, registers):
     
-    if registers["FLAGS"][14] == 1:
+    if registers["111"][14] == '1':
         PC = label
 
     else:
@@ -417,7 +417,7 @@ def jgt(label, PC, registers):
 
 def je(label, PC, registers):
     
-    if registers["FLAGS"][15] == 1:
+    if registers["111"][15] == "1":
         PC = label
 
     else:
