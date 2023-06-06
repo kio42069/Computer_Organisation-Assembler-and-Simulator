@@ -36,8 +36,16 @@ def binary_to_float(strvalue):
 
     val = bin_to_dec(strvalue)
     
-    zeroeth_bit = strvalue[0]
-    if zeroeth_bit=="1":
+    if 0.25 <= val and val<=15.75:
+        flag = "1"
+
+    elif val>=15.75:
+        flag = "0"
+
+    elif 0 <= val and val < 0.25:
+        flag = "-1"
+
+    if flag=="1":
         mantissa = strvalue[1:6]
         mantissa = mantissa + "0" * (5 - len(mantissa))
         exponentindec = powerbit + 3
@@ -155,4 +163,4 @@ def f_addition(reg1, reg2, reg3, overflow_flag):
 print(dec_to_bin(0.3))
 print(bin_to_dec("0.01001"))
 print(denormal_float_to_dec("00001001"))
-print(float_to_dec(binary_to_float(dec_to_bin(0.3)[0:10])))
+print((binary_to_float(dec_to_bin(0.3)[0:10])))
