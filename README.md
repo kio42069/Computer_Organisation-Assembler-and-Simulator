@@ -25,3 +25,11 @@ If label is not followed by an instruction, we are ignoring it and not throwing 
 In case a file has multiple errors, we are storing them in a text file in the same directory as the source code named `errors.txt`. It catches all errors in a single line too.
 
 We are printing one of the errors on the terminal
+
+#Float Arithmetic Details
+
+Range of normal numbers - 0.25 to 15.75
+
+Range of denormal numbers - 0.0078125 to 0.2421875
+
+Exponent = 111 is considered infinity and overflow flag is set
