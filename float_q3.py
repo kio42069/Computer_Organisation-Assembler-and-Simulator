@@ -70,14 +70,14 @@ def number_to_float(val):
         flt = val
         cnt=0
         out=""
-        print(flt)
+        #print(flt)
         while cnt<5:
             flt = flt * 2
             out += str(int(flt))
 
             flt = flt%1
             cnt+=1
-        print(out)
+        #print(out)
         out = init_exp + out 
 
     return out
@@ -104,4 +104,35 @@ def dec_to_bin(decval):
     out = str(bininteg) + "." + out
     return out
 
-print(number_to_float(0.0125))
+print(number_to_float(0.05))
+
+def float_to_dec(strfloat):
+    exponent = strfloat[:3]
+    mantissa = strfloat[3:]
+
+    if exponent != "000":
+        mant_sum = 1
+        for i in range(5):
+            mant_sum += (int(mantissa[i])) / (2**(i+1))
+
+        exp_val = 2**(EE.binary_to_decimal(int(exponent)) - 3)
+        dec_val = exp_val * mant_sum
+
+    else:
+        dec_val = denormal_float_to_dec(strfloat)
+
+    return dec_val
+
+
+def denormal_float_to_dec(strfloat):
+    exp = 2**(-2)
+    mant = strfloat[3:]
+    mant_sum = 0
+    for i in range(5):
+        mant_sum += (int(mant[i])) / (2**(i+1))
+
+    dec_val = exp * mant_sum
+
+    return dec_val
+
+#print(float_to_dec("00000110"))
