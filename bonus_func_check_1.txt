@@ -1,0 +1,42 @@
+mov R0 $0
+nop
+mov R1 $1
+nop
+mov R1 $127
+decf R1
+incf R0
+nop
+mov R2 $0
+bsf R2 $0
+bsf R2 $1
+bsf R2 $2
+bsf R2 $3
+bsf R2 $4
+bsf R2 $5
+bsf R2 $6
+bsf R2 $7
+bsf R2 $8
+bsf R2 $9
+bsf R2 $10
+bsf R2 $11
+bsf R2 $12
+bsf R2 $13
+bsf R2 $14
+bsf R2 $15
+bcf R2 $0
+bcf R2 $1
+bcf R2 $2
+bcf R2 $3
+bcf R2 $4
+bcf R2 $5
+bcf R2 $6
+bcf R2 $7
+bcf R2 $8
+bcf R2 $9
+bcf R2 $10
+bcf R2 $11
+bcf R2 $12
+bcf R2 $13
+bcf R2 $14
+bcf R2 $15
+hlt

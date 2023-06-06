@@ -1,0 +1,19 @@
+mov R0 $0
+mov R1 $127
+
+nop masti 
+
+incf R1
+decf R0
+
+bsf R0 $16
+nop abc
+bcf R1 $17
+
+incf FLAGS
+
+nop lessgo
+
+decf FLAGS
+
+hlt
