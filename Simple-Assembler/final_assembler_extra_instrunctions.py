@@ -7,6 +7,7 @@
 # all instructions using mem_addr use labels/vars
 
 import os
+from float_q3 import *
 
 #global errors dictionary
 ERRORS_DIC = {}
@@ -80,21 +81,39 @@ def type_B(line_output, line_lst, registers):
         line_output = "ERROR"
         flag = 0
 
-    imm = float(line_lst[2][1:])
-    if (imm < 0) or (imm > 127) or float(int(imm)) != imm:
-        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
-        line_output = "ERROR"
+    imm = line_lst[2][1:]
+    try:
+        num = eval(imm)
+        if type(num) == int:
+            if num < 0 or num >= 128:
+                flag = 0
+                line_output = "ERROR"
+                ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
+
+        elif type(num) == float:
+            if num < 0 or num > 15.75:
+                flag = 0
+                line_output = "ERROR"
+                ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
+    except:
         flag = 0
+        line_output = "ERROR"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
 
     if flag:
-        imm = int(imm)
-        imm = decimal_to_binary(imm)
+        imm = eval(imm)
+        if type(imm) == int:
+            imm = decimal_to_binary(imm)
 
-        length_of_imm_to_be_added = 7 - len(imm)       # handle overflow of 7 bits just before here pls
-        for i in range(length_of_imm_to_be_added):
-            imm = '0' + imm
+            length_of_imm_to_be_added = 7 - len(imm)       
+            for i in range(length_of_imm_to_be_added):
+                imm = '0' + imm
 
-        line_output += f"0{registers[register]}{imm}"
+            line_output += f"0{registers[register]}{imm}"
+        elif type(imm) == float:
+            imm = number_to_float(float(imm))
+            line_output += f"{registers[register]}{imm}"
+
 
     return line_output
 
@@ -207,28 +226,74 @@ def type_E(line_output, line_lst):
 
 #incf and decf
 def incf_and_decf(line_output, line_lst):
+    global temp_cnt, alt_counter
     line_output += "00000000"
-    reg = decimal_to_binary(line_lst[1])            #pick value of reg from dict
+    flag = 1
 
-    reg = (3-len(reg))*"0" + reg
+    if len(line_lst) != 2:
+        flag = 0
+        line_output = "ERROR"
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Incorrect number of arguments")
+    try:
+        reg = registers[line_lst[1]]
+    except:
+        flag = 0
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined register")
+        line_output = "ERROR"
 
-    line_output += reg                              #do error handling
+    if flag:
+        line_output += reg                              
 
     return line_output
 
 
 #bcf and bsf
 def bcf_and_bsf(line_output, line_lst):
+    global temp_cnt, alt_counter
     line_output += "0000"
-    
-    reg = decimal_to_binary(line_lst[1])
-    reg = (3-len(reg))*"0" + reg
-    line_output += reg
+    flag = 1
 
-    imm = line_lst[2]
-    imm = decimal_to_binary(imm)                    #do error handling
-    imm = (4-len(imm))*"0" + imm
-    line_output += imm
+    if len(line_lst) != 3:
+        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Incorrect number of arguments")
+    else:
+        try:
+            reg = registers[line_lst[1]]
+        except:
+            flag = 0
+            line_output = "ERROR"
+            ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Use of undefined register")
+        
+        if flag:    
+            line_output += reg
+            imm = line_lst[2][1:]
+
+            if len(imm) == 0:
+                flag = 0
+                line_output = "ERROR"
+                ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Empty immediate value")
+
+            else:
+                try:
+                    num = eval(imm)
+                    if type(num) == int:
+                        if num < 0 or num >= 16:
+                            flag = 0
+                            line_output = "ERROR"
+                            ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
+                    else:
+                        flag = 0
+                        line_output = "ERROR"
+                        ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
+                        
+                except:
+                    flag = 0
+                    line_output = "ERROR"
+                    ERRORS_DIC[temp_cnt+alt_counter+1].append("ERROR : Illegal Immediate Value")
+
+    if flag:
+        imm = decimal_to_binary(imm)
+        imm = (4-len(imm))*"0" + imm
+        line_output += imm
 
     return line_output    
 
