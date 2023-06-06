@@ -143,13 +143,58 @@ def E(curr_line, PC, registers):
 
     return registers, PC
 
-def type_B_float(curr_line, PC, registers):
-    opcode = curr_line[:5]
+def type_B_float(curr_line, registers):
     reg = curr_line[5:8]
     imm = curr_line[8:]
     imm = "0"*(16-len(imm))+imm
     registers[reg] = imm
     return registers
+
+def bonus(curr_line, registers):
+    opcode = curr_line[:5]
+    match opcode:
+        case "10011":
+            pass
+
+        case "10100":
+            reg = curr_line[-3::]
+            value = registers[reg]
+            value = binary_to_decimal(value)
+            value += 1
+            if value > 127:
+                registers[reg] = "0000000000000000"
+                registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+            else:
+                value = decimal_to_binary(value)
+                value = "0"*(16-len(value)) + value
+                registers[reg] = value
+
+        case "10101":
+            reg = curr_line[-3::]
+            value = registers[reg]
+            value = binary_to_decimal(value)
+            value -= 1
+            if value < 0:
+                registers[reg] = "0000000000000000"
+                registers["111"] = registers["111"][:12] + "1" + registers["111"][13:]
+            else:
+                value = decimal_to_binary(value)
+                value = "0"*(16-len(value)) + value
+                registers[reg] = value
+
+        case "10110":
+            reg = curr_line[9:12]
+            imm = int(binary_to_decimal(curr_line[12:]))
+            registers[reg] = registers[reg][:imm] + '0' + registers[reg][imm+1::]
+
+        case "10111":
+            reg = curr_line[9:12]
+            imm = int(binary_to_decimal(curr_line[12:]))
+            registers[reg] = registers[reg][:imm] + '1' + registers[reg][imm+1::]
+
+    return registers
+
+
 
 def add(value2, value3, reg1, registers):
     value1 = decimal_to_binary(str(int(value2) + int(value3)))
@@ -388,6 +433,7 @@ def execute(curr_line, PC, registers, halted, memory):
     d_opcodes = ["00100", "00101"]
     e_opcodes = ["01111", "11100", "11101", "11111"]
     b_float_codes = ["10010"]
+    bonus = ["10011", "10100", "10101", "10110", "10111"]
 
     if opcode in a_opcodes:
         registers = A(curr_line, registers)
@@ -409,7 +455,10 @@ def execute(curr_line, PC, registers, halted, memory):
         registers, PC = E(curr_line, PC, registers)
 
     elif opcode in b_float_codes:
-        registers, PC = type_B_float(curr_line, PC, registers)
+        registers = type_B_float(curr_line, registers)
+
+    elif opcode in bonus:
+        registers = bonus(curr_line, registers)
 
     else:
         halted = True
