@@ -12,19 +12,21 @@ conversions and three functions'''
 import EE
 
 "binary string to floating binary"
-def binary_to_float(strvalue):  
+
+
+def binary_to_float(strvalue):
     flag = False
 
-    for i in range(len(strvalue)):     #remove trailing 0s
-        if strvalue[i]!="1":
-            if strvalue[i]!=".":
+    for i in range(len(strvalue)):  # remove trailing 0s
+        if strvalue[i] != "1":
+            if strvalue[i] != ".":
                 strvalue = strvalue[i:]
             else:
                 break
         else:
             break
-    powerbit = len(strvalue)-1             
-    
+    powerbit = len(strvalue)-1
+
     for i in range(len(strvalue)):
         if strvalue[i] == ".":
             powerbit = i-1
@@ -35,17 +37,16 @@ def binary_to_float(strvalue):
         strvalue = strvalue.replace(".", "")
 
     val = bin_to_dec(strvalue)
-    
+
     zeroeth_bit = strvalue[0]
-    if zeroeth_bit=="1":
+    if zeroeth_bit == "1":
         mantissa = strvalue[1:6]
         mantissa = mantissa + "0" * (5 - len(mantissa))
         exponentindec = powerbit + 3
         exponent = str(EE.decimal_to_binary(exponentindec))
         exponent = "0" * (3 - len(exponent)) + exponent
-    
 
-    #Main difficulty here: 
+    # Main difficulty here:
     else:
         mantissa = strvalue[1:6]
         mantissa = mantissa + "0" * (5 - len(mantissa))
@@ -53,22 +54,28 @@ def binary_to_float(strvalue):
 
     return (exponent + mantissa)
 
+
 "floating binary to binary string"
+
+
 def float_to_binary(strfloat):
     exponent = strfloat[:3]
     mantissa = strfloat[3:]
 
     exponentindec = EE.binary_to_decimal(int(exponent)) - 3
     mantissa = "1" + mantissa[:exponentindec] + "." + mantissa[exponentindec:]
-    
+
     return mantissa
 
+
 "floating binary to decimal value"
+
+
 def float_to_dec(strfloat):
     exponent = strfloat[:3]
     mantissa = strfloat[3:]
 
-    if exponent!="000":
+    if exponent != "000":
         mant_sum = 1
         for i in range(5):
             mant_sum += (int(mantissa[i])) / (2**(i+1))
@@ -88,31 +95,35 @@ def denormal_float_to_dec(strfloat):
     mant_sum = 0
     for i in range(5):
         mant_sum += (int(mant[i])) / (2**(i+1))
-    
+
     dec_val = exp * mant_sum
 
     return dec_val
-    
-    
+
 
 "decimal value to binary string"
+
+
 def dec_to_bin(decval):
     out = ""
     integral = int(decval)
-    flt = decval%1
+    flt = decval % 1
     bininteg = bin(integral)[2:]
-    cnt=0
+    cnt = 0
 
-    while flt!=0 or cnt==10:
+    while flt != 0 or cnt == 10:
         flt = flt * 2
         out += str(int(flt))
-        flt = flt%1
-        cnt+=1
+        flt = flt % 1
+        cnt += 1
 
     out = str(bininteg) + "." + out
     return out
 
+
 "binary string to decimal value"
+
+
 def bin_to_dec(strbin):
     if "." in strbin:
         integ, flt = strbin.split(".")
@@ -120,15 +131,15 @@ def bin_to_dec(strbin):
         integ = strbin
         flt = ""
     integ = integ[::-1]
-    decs=0
-    flts=0
+    decs = 0
+    flts = 0
     for i in range(len(integ)):
         decs += (int(integ[i]))*(2**(i))
-    
+
     for i in range(len(flt)):
         flts += (int(flt[i]))/(2**(i+1))
 
-    sum = decs +flts
+    sum = decs + flts
     return sum
 
 
@@ -143,15 +154,15 @@ def min_float():
 
 
 def f_addition(reg1, reg2, reg3, overflow_flag):
-    reg1 = reg2 +reg3
-    if reg1> max_float():
+    reg1 = reg2 + reg3
+    if reg1 > max_float():
         reg1 = 0
         overflow_flag = 1
     reg1 = binary_to_float(dec_to_bin(reg1))
     return reg1
 
 
-#def f_subtraction(reg1, reg2, reg3)
+# def f_subtraction(reg1, reg2, reg3)
 print(dec_to_bin(0.3))
 print(bin_to_dec("0.01001"))
 print(denormal_float_to_dec("00001001"))

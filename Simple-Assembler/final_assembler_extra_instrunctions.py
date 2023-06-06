@@ -208,7 +208,7 @@ def type_E(line_output, line_lst):
 #incf and decf
 def incf_and_decf(line_output, line_lst):
     line_output += "00000000"
-    reg = decimal_to_binary(line_lst[1])
+    reg = decimal_to_binary(line_lst[1])            #pick value of reg from dict
 
     reg = (3-len(reg))*"0" + reg
 
@@ -503,22 +503,22 @@ for line in code_as_lst:
 
             #new instructions
             case "nop":
-                line_output = "1000000000000000"
+                line_output = "1001100000000000"
 
             case "incf":
-                line_output = "10001"
+                line_output = "10100"
                 line_output = incf_and_decf(line_output, line_lst)
 
             case "decf":
-                line_output = "10010"
+                line_output = "10101"
                 line_output = incf_and_decf(line_output, line_lst)
 
-            case "bcf":
-                line_output = "10011"
+            case "bcf":          #add hashtag for imm
+                line_output = "10110"
                 line_output = bcf_and_bsf(line_output, line_lst)
 
             case "bsf":
-                line_output = "10100"
+                line_output = "10111"
                 line_output = bcf_and_bsf(line_output, line_lst)
 
 
