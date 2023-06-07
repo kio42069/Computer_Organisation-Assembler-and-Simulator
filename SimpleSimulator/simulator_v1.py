@@ -10,11 +10,11 @@ halted = False
 import sys
 lst = sys.stdin.readlines()
 
-# with open("test1", "r") as f:
+# with open("test4", "r") as f:
 #     lst = f.readlines()
 
 for i in range(len(lst)):
-    memory[i] = lst[i][:-1]
+    memory[i] = lst[i].strip()
 
 while (not halted):
     curr_line = memory[PC].strip()
@@ -25,6 +25,7 @@ while (not halted):
         printable_PC = '0' + printable_PC
 
     print(printable_PC, end = "        ")
+
     PC, halted, registers = EE.execute(curr_line, PC, registers, halted, memory)
 
     for i in registers.values():
