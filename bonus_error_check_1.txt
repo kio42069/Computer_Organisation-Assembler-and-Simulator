@@ -1,0 +1,19 @@
+mov R0 $0
+mov R1 $127
+incf R1
+decf R0
+
+bsf R0 $16
+bsf R1 $17
+bcf R0 !4
+bcf R0 3
+
+incf R7
+decf R8
+
+incf FLAGS
+decf FLAGS
+
+bsf R5 100
+
+bcf R6 #100
