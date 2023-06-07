@@ -1,3 +1,2 @@
 #!/bin/bash
-rm ../Simple-Assembler/errors.txt
 python3 src/main.py $@
