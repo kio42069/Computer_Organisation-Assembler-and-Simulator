@@ -8,7 +8,7 @@ Language: Python
 # Collaborators
 Prashi Jain [@ded-avishi](https://www.github.com/ded-avishi)
 
-Surat Sathi Samanta [@surat-ss](https://www.github.com/surat-ss)
+Surat Sathi Samanta [@kio42069](https://www.github.com/kio42069)
 
 Riya Sachdeva [@riyasach189](https://www.github.com/riyasach189)
 
